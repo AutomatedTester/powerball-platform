@@ -31,16 +31,14 @@ app.configure(function(){
     res.render('500', {title: 'Powerball',
         status: err.status || 500
       , error: err
+    });
   });
   app.use(function(req, res, next){
     // the status option, or res.statusCode = 404
     // are equivalent, however with the option we
     // get the "status" local available as well
     res.render('404', { title: 'Powerball', status: 404, url: req.url });
-});
-  
-});
-  
+  });
 });
 
 var oa= new OAuth("https://twitter.com/oauth/request_token",
