@@ -45,7 +45,7 @@ app.configure(function(){
 
 var oa= new OAuth("https://twitter.com/oauth/request_token",
                  "https://twitter.com/oauth/access_token", 
-                 'RDYP6kRnaJsyex5SuqgZQ', 'XLBmtVINqsKtxDxWfcBE7FwlMonnF4wlRf1MbVOKuSQ', 
+                 'conkey', 'consecret', 
                  "1.0A", 'http://localhost:3000/sessions/callback', "HMAC-SHA1");
 
 app.configure('development', function(){
