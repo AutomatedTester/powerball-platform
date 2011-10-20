@@ -64,23 +64,6 @@ app.configure('production', function(){
   app.use(express.errorHandler()); 
 });
 
-
-
-app.get('/404', function(req, res, next){
-  next();
-});
-
-app.get('/403', function(req, res, next){
-  var err = new Error('not allowed!');
-  err.status = 403;
-  next(err);
-});
-
-app.get('/500', function(req, res, next){
-  next(new Error('keyboard cat!'));
-});
-
-
 // Routes
 
 app.get('/', function(req, res){
@@ -132,6 +115,20 @@ app.get('/sessions/callback', function(req, res){
       });
     }
   });
+});
+
+app.get('/404', function(req, res, next){
+  next();
+});
+
+app.get('/403', function(req, res, next){
+  var err = new Error('not allowed!');
+  err.status = 403;
+  next(err);
+});
+
+app.get('/500', function(req, res, next){
+  next(new Error('keyboard cat!'));
 });
 
 app.get('/healthcheck', function(req, res){
