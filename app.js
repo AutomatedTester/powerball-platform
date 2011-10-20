@@ -9,6 +9,14 @@ var express = require('express')
   , fs = require('fs')
   , RedisStore = require('connect-redis');
 
+var conkey
+  , consecret;
+
+fileContents = fs.readFileSync("secret.txt", "UTF-8")
+detail = fileContents.split('\n');
+conkey = detail[0];
+consecret = detail[1];
+
 
 var app = module.exports = express.createServer();
 var RedisStore = require('connect-redis')(express);
@@ -45,7 +53,7 @@ app.configure(function(){
 
 var oa= new OAuth("https://twitter.com/oauth/request_token",
                  "https://twitter.com/oauth/access_token", 
-                 'conkey', 'consecret', 
+                 conkey, consecret, 
                  "1.0A", 'http://107.20.218.129/sessions/callback', "HMAC-SHA1");
 
 app.configure('development', function(){
@@ -127,9 +135,10 @@ app.get('/sessions/callback', function(req, res){
 });
 
 app.get('/healthcheck', function(req, res){
-    res.render('index', {
-      title: 'Powerball'
-    });
+  res.render('index', {
+    user: req.session.twitterScreenName,
+    title: 'Powerball'
+  });
 });
 
 app.listen(3000);
