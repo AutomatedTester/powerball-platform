@@ -28,6 +28,7 @@ app.configure(function(){
     // we may use properties of the error object
     // here and next(err) appropriately, or if
     // we possibly recovered from the error, simply next().
+    console.error(err.stack);
     res.render('500', {title: 'Powerball',
         status: err.status || 500
       , error: err
@@ -37,6 +38,7 @@ app.configure(function(){
     // the status option, or res.statusCode = 404
     // are equivalent, however with the option we
     // get the "status" local available as well
+    console.error("Url " + req.url + " was not found");
     res.render('404', { title: 'Powerball', status: 404, url: req.url });
   });
 });
@@ -53,6 +55,7 @@ app.configure('development', function(){
 app.configure('production', function(){
   app.use(express.errorHandler()); 
 });
+
 
 
 app.get('/404', function(req, res, next){
@@ -126,8 +129,11 @@ app.get('/sessions/callback', function(req, res){
   });
 });
 
-app.get('/healthcheck', function(res, req){
-  res.send(200);
+app.get('/healthcheck', function(req, res){
+    res.render('index', {
+      title: 'Powerball'
+    });
 });
+
 app.listen(3000);
 console.log("Express server listening on port %d in %s mode", app.address().port, app.settings.env);
