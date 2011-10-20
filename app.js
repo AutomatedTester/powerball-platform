@@ -7,7 +7,8 @@ var express = require('express')
   , Oauth = OAuth = require('oauth').OAuth
   , sys = require('sys')
   , fs = require('fs')
-  , RedisStore = require('connect-redis');
+  , RedisStore = require('connect-redis')
+  , DataProvider = require('./dataprovider').DataProvider;
 
 var conkey
   , consecret;
@@ -54,7 +55,9 @@ app.configure(function(){
 var oa= new OAuth("https://twitter.com/oauth/request_token",
                  "https://twitter.com/oauth/access_token", 
                  conkey, consecret, 
-                 "1.0A", 'http://107.20.218.129/sessions/callback', "HMAC-SHA1");
+                 "1.0A", 'http://localhost:3000/sessions/callback', "HMAC-SHA1");
+
+var dataProvider = new DataProvider('localhost', 27017);
 
 app.configure('development', function(){
   app.use(express.errorHandler({ dumpExceptions: true, showStack: true })); 
@@ -109,8 +112,17 @@ app.get('/sessions/callback', function(req, res){
         } else {
           data1 = JSON.parse(data);
           // TODO(David) store user details to create profile
+
+          dataProvider.save({
+            user: data1["screen_name"],
+            oauthAccessToken: req.session.oauthAccessToken,
+            oauthAccessTokenSecret: req.session.oauthAccessTokenSecret,
+            }, function( error, docs) {
+          });
+          
+
           req.session.twitterScreenName = data1["screen_name"];
-          res.send('You are signed in: ' + req.session.twitterScreenName + ' or ' + data1["screen_name"]);
+          res.redirect('/');
         }
       });
     }
