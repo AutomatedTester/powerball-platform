@@ -76,13 +76,10 @@ app.get('/500', function(req, res, next){
 // Routes
 
 app.get('/', function(req, res){
-  if(!req.session.oauthAccessToken) {
-    res.redirect("/twitter");
-  } else {
-    res.render('index', {
-      title: 'Powerball'
-    });
-  }
+  res.render('index', {
+    user: req.session.twitterScreenName,
+    title: 'Powerball'
+  });
 });
 
 
