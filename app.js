@@ -24,11 +24,28 @@ app.configure(function(){
   app.use(express.session({ secret: 'showMeTheMoney', store: new RedisStore }));
   app.use(app.router);
   app.use(express.static(__dirname + '/public'));
+  app.use(function(err, req, res, next){
+    // we may use properties of the error object
+    // here and next(err) appropriately, or if
+    // we possibly recovered from the error, simply next().
+    res.render('500', {title: 'Powerball',
+        status: err.status || 500
+      , error: err
+  });
+  app.use(function(req, res, next){
+    // the status option, or res.statusCode = 404
+    // are equivalent, however with the option we
+    // get the "status" local available as well
+    res.render('404', { title: 'Powerball', status: 404, url: req.url });
+});
+  
+});
+  
 });
 
 var oa= new OAuth("https://twitter.com/oauth/request_token",
                  "https://twitter.com/oauth/access_token", 
-                 'conkey', 'consecret', 
+                 'RDYP6kRnaJsyex5SuqgZQ', 'XLBmtVINqsKtxDxWfcBE7FwlMonnF4wlRf1MbVOKuSQ', 
                  "1.0A", 'http://localhost:3000/sessions/callback', "HMAC-SHA1");
 
 app.configure('development', function(){
@@ -38,6 +55,22 @@ app.configure('development', function(){
 app.configure('production', function(){
   app.use(express.errorHandler()); 
 });
+
+
+app.get('/404', function(req, res, next){
+  next();
+});
+
+app.get('/403', function(req, res, next){
+  var err = new Error('not allowed!');
+  err.status = 403;
+  next(err);
+});
+
+app.get('/500', function(req, res, next){
+  next(new Error('keyboard cat!'));
+});
+
 
 // Routes
 
@@ -55,7 +88,8 @@ app.get('/', function(req, res){
 app.get('/twitter', function(req, res){
   oa.getOAuthRequestToken(function(error, oauthToken, oauthTokenSecret, results){
     if (error) {
-      // TODO(David) error gracefully
+      console.error(error);
+      res.redirect('/500');
     } else {
       req.session.oauthRequestToken = oauthToken;
       req.session.oauthRequestTokenSecret = oauthTokenSecret;
@@ -71,7 +105,8 @@ app.get('/sessions/callback', function(req, res){
                         req.query.oauth_verifier, 
   function(error, oauthAccessToken, oauthAccessTokenSecret, results) {
     if (error) {
-      // TODO(David) error gracefully
+      console.error(error);
+      res.redirect('/500');
     } else {
       // TODO(David) Push oauthAccessToken and oauthAccessTokenSecret to datastore for offline use
       req.session.oauthAccessToken = oauthAccessToken;
@@ -80,10 +115,11 @@ app.get('/sessions/callback', function(req, res){
       // Right here is where we would write out some nice user stuff
       oa.get("http://twitter.com/account/verify_credentials.json", req.session.oauthAccessToken, req.session.oauthAccessTokenSecret, function (error, data, response) {
         if (error) {
-          // TODO(David) error gracefully
+          console.error(error);
+          res.redirect('/500');
         } else {
           data1 = JSON.parse(data);
-          // TODO(David) store user details
+          // TODO(David) store user details to create profile
           req.session.twitterScreenName = data1["screen_name"];
           res.send('You are signed in: ' + req.session.twitterScreenName + ' or ' + data1["screen_name"]);
         }
