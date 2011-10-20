@@ -44,7 +44,7 @@ app.configure(function(){
 var oa= new OAuth("https://twitter.com/oauth/request_token",
                  "https://twitter.com/oauth/access_token", 
                  'conkey', 'consecret', 
-                 "1.0A", 'http://localhost:3000/sessions/callback', "HMAC-SHA1");
+                 "1.0A", 'http://107.20.218.129/sessions/callback', "HMAC-SHA1");
 
 app.configure('development', function(){
   app.use(express.errorHandler({ dumpExceptions: true, showStack: true })); 
@@ -126,6 +126,8 @@ app.get('/sessions/callback', function(req, res){
   });
 });
 
-
+app.get('/healthcheck', function(res, req){
+  res.send(200);
+});
 app.listen(3000);
 console.log("Express server listening on port %d in %s mode", app.address().port, app.settings.env);
