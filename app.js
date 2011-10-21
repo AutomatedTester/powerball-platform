@@ -55,7 +55,7 @@ app.configure(function(){
 var oa= new OAuth("https://twitter.com/oauth/request_token",
                  "https://twitter.com/oauth/access_token", 
                  conkey, consecret, 
-                 "1.0A", 'http://localhost:3000/sessions/callback', "HMAC-SHA1");
+                 "1.0A", 'http://myloadbalancer-1097051438.us-east-1.elb.amazonaws.com//sessions/callback', "HMAC-SHA1");
 
 var dataProvider = new DataProvider('localhost', 27017);
 
