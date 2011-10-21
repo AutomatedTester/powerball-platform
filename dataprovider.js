@@ -26,7 +26,7 @@ DataProvider.prototype.findAll = function(callback) {
 //Find post by ID
 DataProvider.prototype.findById = function(id, callback) {
   user = id;
-  User.findOne(id, function (err, post) {
+  User.findOne({name:id}, function (err, post) {
     if (!err) {
       callback(null, post);
     }

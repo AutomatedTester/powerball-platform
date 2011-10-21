@@ -78,11 +78,15 @@ res.render('index', {
 
 app.get('/user/:name', function(req, res){
   dataProvider.findById(req.params.name, function(error, user) {
+    if (user){
       res.render('user', {
         user: user.name || '',
         title: 'Powerball'
       });
-    });
+    } else {
+      res.render('404', { title: 'Powerball', status: 404, url: req.url });
+    }
+  });
 });
 
 app.get('/twitter', function(req, res){
