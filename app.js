@@ -70,12 +70,21 @@ app.configure('production', function(){
 // Routes
 
 app.get('/', function(req, res){
-  res.render('index', {
+res.render('index', {
     user: req.session.twitterScreenName,
     title: 'Powerball'
   });
 });
 
+app.get('/user/:name', function(req, res){
+  dataProvider.findById(req.params.name, function(error, user) {
+      console.log(user);
+      res.render('user', {
+        user: user.name || '',
+        title: 'Powerball'
+      });
+    });
+});
 
 app.get('/twitter', function(req, res){
   oa.getOAuthRequestToken(function(error, oauthToken, oauthTokenSecret, results){
@@ -112,12 +121,13 @@ app.get('/sessions/callback', function(req, res){
         } else {
           data1 = JSON.parse(data);
           // TODO(David) store user details to create profile
+          params = {
+            'name': data1["screen_name"].toLowerCase(),
+            'oauthAccessToken': req.session.oauthAccessToken,
+            'oauthAccessTokenSecret': req.session.oauthAccessTokenSecret,
+            };
 
-          dataProvider.save({
-            user: data1["screen_name"],
-            oauthAccessToken: req.session.oauthAccessToken,
-            oauthAccessTokenSecret: req.session.oauthAccessTokenSecret,
-            }, function( error, docs) {
+          dataProvider.save(params, function( error, docs) {
           });
           
 
