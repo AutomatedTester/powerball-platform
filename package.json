@@ -6,5 +6,6 @@
       "express": "2.4.6"
     , "jade": ">= 0.0.1"
     , "connect-redis": "1.0.7"
+    , "mongoose": "2.3.5"
   }
 }
