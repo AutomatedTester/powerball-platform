@@ -37,12 +37,12 @@ DataProvider.prototype.findById = function(id, callback) {
 DataProvider.prototype.updateById = function(id, body, callback) {
   User.findById(id, function (err, post) {
     if (!err) {
-user.title = body.title;
-user.body = body.body;
-user.save(function (err) {
-callback();
-});
-}
+      user.title = body.title;
+      user.body = body.body;
+      user.save(function (err) {
+        callback();
+      });
+    }
   });
 };
 
