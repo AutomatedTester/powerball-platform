@@ -123,7 +123,6 @@ app.get('/sessions/callback', function(req, res){
           res.redirect('/500');
         } else {
           data1 = JSON.parse(data);
-          // TODO(David) store user details to create profile
           params = {
             'name': data1["screen_name"].toLowerCase(),
             'oauthAccessToken': req.session.oauthAccessToken,
