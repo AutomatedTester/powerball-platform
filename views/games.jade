@@ -1,0 +1,12 @@
+h1= title
+p Welcome to #{title}
+  - if (user)
+    p Welcome #{user}
+  - else
+    p Would you like to sign in? 
+      a(href='/twitter') Sign in
+p The following games are available
+  br
+  - each game in games
+    a(href='/game/#{game}') #{game}
+    br
