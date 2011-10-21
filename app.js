@@ -156,7 +156,7 @@ app.get('/500', function(req, res, next){
 });
 
 app.get('/healthcheck', function(req, res){
-  res.render('index', {
+  res.render('healthcheck', {
     user: req.session.twitterScreenName,
     title: 'Powerball'
   });
