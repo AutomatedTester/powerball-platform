@@ -92,16 +92,10 @@ app.get('/user/:name', function(req, res){
 var games = {'l10n':1};
 
 app.get('/games', function(req, res){
-  var gameNames=[];
-  for (var game in games){
-    if( games.hasOwnProperty(game)){
-      gameNames.push(game);
-    }
-  }
   res.render('games', {
       user: req.session.twitterScreenName,
       title: 'Powerball',
-      games: gameNames
+      games: Object.keys(games),
     });
 });
 
