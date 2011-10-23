@@ -1,3 +1,5 @@
+link(type="text/css", href="/css/ui-lightness/jquery-ui-1.8.16.custom.css", rel="Stylesheet")
+
 h1= title
 p Welcome to #{title}
   - if (user)
@@ -7,6 +9,47 @@ p Welcome to #{title}
       a(href='/twitter') Sign in
 p Lets play #{game}!
 p Are the following the same?
-  img(src='/images/eng.jpg')
-  img(src='/images/ger.jpg')
+  br
+  img(id='eng', src='')
+  img(id='ger', src='')
+  br
+  button(id="yes") Yes
+  button(id="no") No
+div(id='dialog')
+  p You appear to have gone through all the images, congratulations!!! Why not share with your friends what you have
+    done!
+  p 
+    textarea(id='tweetMessage', readonly='true',style="height:50px; width:190px;") I have just checked a number of images for Mozilla QA and scored X on Powerball
+    br
+    button(id="tweet") Tweet
+    div(id='error')
+
+
+script(type="text/javascript", src='/javascripts/jquery-1.6.4.min.js')
+script(type="text/javascript", src='/javascripts/jquery-ui-1.8.16.custom.min.js')
+script
+  $(document).ready(function () {
+    $('#dialog').dialog({ autoOpen: false })
+    var images = ['view', 'bookmarks', 'edit', 'file', 'history', 'tools', 'window']
+    , currentShow = 0;
+    $('#eng').attr('src',"/images/eng-"+images[currentShow]+".jpg" );
+    $('#ger').attr('src',"/images/ger-"+images[currentShow]+".jpg");
+      
+    $('#yes').click(function() {
+      currentShow++;
+      $('#eng').attr('src',"/images/eng-"+images[currentShow]+".jpg" );
+      $('#ger').attr('src',"/images/ger-"+images[currentShow]+".jpg");
+    });
+      
+    $('#no').click(function() {
+      currentShow++;
+      if (currentShow < images.length){
+        $('#eng').attr('src',"/images/eng-"+images[currentShow]+".jpg" );
+        $('#ger').attr('src',"/images/ger-"+images[currentShow]+".jpg");
+      } else {
+        $('#dialog').dialog('open');  
+      }
+    });
+    
+  });
   
