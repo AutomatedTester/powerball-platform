@@ -55,7 +55,7 @@ app.configure(function(){
 var oa= new OAuth("https://twitter.com/oauth/request_token",
                  "https://twitter.com/oauth/access_token", 
                  conkey, consecret, 
-                 "1.0A", 'http://myloadbalancer-1097051438.us-east-1.elb.amazonaws.com//sessions/callback', "HMAC-SHA1");
+                 "1.0A", 'http://localhost:3000/sessions/callback', "HMAC-SHA1");
 
 var dataProvider = new DataProvider('localhost', 27017);
 
@@ -166,6 +166,25 @@ app.get('/sessions/callback', function(req, res){
       });
     }
   });
+});
+
+app.post('/twitter', function(req, res){
+  console.log(req.body)
+  if (req.session.twitterScreenName){
+    oa.post("http://api.twitter.com/1/statuses/update.json", 
+        req.session.oauthAccessToken,
+        req.session.oauthAccessTokenSecret, req.body, 
+        function(error, data, response){
+          if(error){
+            console.error(error);
+            res.redirect('/500');
+          }
+        }
+    );
+  } else {
+    console.log('User not logged and tried to tweet');
+    res.json({"error": "not logged in"});
+  }
 });
 
 app.get('/404', function(req, res, next){

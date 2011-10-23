@@ -50,6 +50,12 @@ script
         $('#dialog').dialog('open');  
       }
     });
-    
+    $('#tweet').click(function(){
+      $.post('/twitter', {status: $('#tweetMessage').text()}, function(data){
+          if (data['error']){
+            $('#error').text(data['error']);  
+          }
+      });  
+    }); 
   });
   
