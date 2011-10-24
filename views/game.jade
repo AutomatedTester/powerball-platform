@@ -37,8 +37,12 @@ script
       
     $('#yes').click(function() {
       currentShow++;
-      $('#eng').attr('src',"/images/eng-"+images[currentShow]+".jpg" );
-      $('#ger').attr('src',"/images/ger-"+images[currentShow]+".jpg");
+      if (currentShow < images.length){
+        $('#eng').attr('src',"/images/eng-"+images[currentShow]+".jpg" );
+        $('#ger').attr('src',"/images/ger-"+images[currentShow]+".jpg");
+      } else {
+        $('#dialog').dialog('open');
+      }
     });
       
     $('#no').click(function() {
@@ -47,13 +51,15 @@ script
         $('#eng').attr('src',"/images/eng-"+images[currentShow]+".jpg" );
         $('#ger').attr('src',"/images/ger-"+images[currentShow]+".jpg");
       } else {
-        $('#dialog').dialog('open');  
+        $('#dialog').dialog('open');
       }
     });
     $('#tweet').click(function(){
       $.post('/twitter', {status: $('#tweetMessage').text()}, function(data){
           if (data['error']){
             $('#error').text(data['error']);  
+          } else {
+            $('#dialog').dialog('close');
           }
       });  
     }); 
