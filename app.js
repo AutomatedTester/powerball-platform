@@ -55,7 +55,7 @@ app.configure(function(){
 var oa= new OAuth("https://twitter.com/oauth/request_token",
                  "https://twitter.com/oauth/access_token", 
                  conkey, consecret, 
-                 "1.0A", 'http://localhost:3000/sessions/callback', "HMAC-SHA1");
+                 "1.0A", 'http://powerball.theautomatedtester.co.uk/sessions/callback', "HMAC-SHA1");
 
 var dataProvider = new DataProvider('localhost', 27017);
 
@@ -70,10 +70,14 @@ app.configure('production', function(){
 // Routes
 
 app.get('/', function(req, res){
-res.render('index', {
+  res.render('index', {
     user: req.session.twitterScreenName,
     title: 'Powerball'
   });
+});
+
+app.post('/', function(req, res){
+  res.send(405);
 });
 
 app.get('/user/:name', function(req, res){
