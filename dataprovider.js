@@ -36,6 +36,7 @@ DataProvider.prototype.save = function(params, callback) {
     oauthAccessToken : params['oauthAccessToken'],
     oauthAccessTokenSecret: params['oauthAccessTokenSecret'], 
     created_at: new Date()});
+  
   post.save(function (err) {
     callback();
   });
