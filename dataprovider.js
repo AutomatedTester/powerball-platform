@@ -41,7 +41,4 @@ DataProvider.prototype.save = function(params, callback) {
   });
 };
 
-
-
 exports.DataProvider = DataProvider;
-
