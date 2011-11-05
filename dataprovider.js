@@ -16,14 +16,12 @@ var User = mongoose.model('user');
 
 DataProvider = function(){};
 
-//Find all posts
 DataProvider.prototype.findAll = function(callback) {
   User.find({}, function (err, posts) {
     callback( null, posts )
   });
 };
 
-//Find post by ID
 DataProvider.prototype.findById = function(id, callback) {
   user = id;
   User.findOne({name:id}, function (err, post) {
@@ -33,20 +31,6 @@ DataProvider.prototype.findById = function(id, callback) {
   });
 };
 
-//Update post by ID
-DataProvider.prototype.updateById = function(id, body, callback) {
-  User.findById(id, function (err, post) {
-    if (!err) {
-      user.title = body.title;
-      user.body = body.body;
-      user.save(function (err) {
-        callback();
-      });
-    }
-  });
-};
-
-//Create a new post
 DataProvider.prototype.save = function(params, callback) {
   var post = new User({name: params['name'],
     oauthAccessToken : params['oauthAccessToken'],
