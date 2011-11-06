@@ -132,7 +132,6 @@ app.get('/twitter', function(req, res){
     }
   });
 })
-  
 
 app.get('/sessions/callback', function(req, res){
   oa.getOAuthAccessToken(req.session.oauthRequestToken, 
@@ -148,27 +147,29 @@ app.get('/sessions/callback', function(req, res){
       req.session.oauthAccessTokenSecret = oauthAccessTokenSecret;
 
       // Right here is where we would write out some nice user stuff
-      oa.get("http://twitter.com/account/verify_credentials.json", req.session.oauthAccessToken, req.session.oauthAccessTokenSecret, function (error, data, response) {
-        if (error) {
-          console.error(error);
-          res.redirect('/500');
-        } else {
-          data1 = JSON.parse(data);
-          params = {
-            'name': data1["screen_name"].toLowerCase(),
-            'oauthAccessToken': req.session.oauthAccessToken,
-            'oauthAccessTokenSecret': req.session.oauthAccessTokenSecret,
-            };
+      oa.get("http://twitter.com/account/verify_credentials.json", 
+        req.session.oauthAccessToken, 
+        req.session.oauthAccessTokenSecret, 
+        function (error, data, response) {
+          if (error) {
+            console.error(error);
+            res.redirect('/500');
+          } else {
+            data1 = JSON.parse(data);
+            params = {
+              'name': data1["screen_name"].toLowerCase(),
+              'oauthAccessToken': req.session.oauthAccessToken,
+              'oauthAccessTokenSecret': req.session.oauthAccessTokenSecret,
+              };
 
-          dataProvider.putUser(params, function(error) {
-          });
+            dataProvider.putUser(params, function(error) {
+            });
           
-
-          req.session.twitterScreenName = data1["screen_name"];
-          res.redirect('/');
-        }
-      });
-    }
+            req.session.twitterScreenName = data1["screen_name"];
+            res.redirect('/');
+          }
+        });
+      }
   });
 });
 
@@ -183,8 +184,7 @@ app.post('/twitter', function(req, res){
             console.error(error);
             res.redirect('/500');
           }
-        }
-    );
+        });
   } else {
     console.log('User not logged and tried to tweet');
     res.json({"error": "not logged in"});
