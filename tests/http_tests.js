@@ -70,7 +70,6 @@ exports.testShouldLoadHealthPage = function(beforeExit, assert){
   );
 }; 
 
-
 exports.testShouldGet404IfUserNotFound = function(beforeExit, assert){
   assert.response(server, {
       url: '/user/omgthiswontexist',
