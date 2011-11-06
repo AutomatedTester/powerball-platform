@@ -4,20 +4,8 @@
  */
 
 var express = require('express')
-  , Oauth = OAuth = require('oauth').OAuth
-  , sys = require('sys')
-  , fs = require('fs')
   , RedisStore = require('connect-redis')
   , DataProvider = require('./dataprovider').DataProvider;
-
-var conkey
-  , consecret;
-
-fileContents = fs.readFileSync("secret.txt", "UTF-8")
-detail = fileContents.split('\n');
-conkey = detail[0];
-consecret = detail[1];
-
 
 var app = module.exports = express.createServer();
 var RedisStore = require('connect-redis')(express);
@@ -52,11 +40,6 @@ app.configure(function(){
   });
 });
 
-var oa= new OAuth("https://twitter.com/oauth/request_token",
-                 "https://twitter.com/oauth/access_token", 
-                 conkey, consecret, 
-                 "1.0A", 'http://powerball.theautomatedtester.co.uk/sessions/callback', "HMAC-SHA1");
-
 var dataProvider = new DataProvider('localhost', 27017);
 
 app.configure('development', function(){
@@ -80,116 +63,10 @@ app.post('/', function(req, res){
   res.send(405);
 });
 
-app.get('/user/:name', function(req, res){
-  dataProvider.findUser(req.params.name, function(error, user) {
-    if (user){
-      res.render('user', {
-        user: user.name,
-        title: 'Powerball'
-      });
-    } else {
-      res.render('404', { title: 'Powerball', status: 404, url: req.url });
-    }
-  });
-});
 
-var games = {'l10n':1};
-
-app.get('/games', function(req, res){
-  res.render('games', {
-      user: req.session.twitterScreenName,
-      title: 'Powerball',
-      games: Object.keys(games),
-    });
-});
-
-app.get('/game/:gamename', function(req, res){
-  var gameName = req.params.gamename;
-  if (!(gameName in games)){ 
-    res.render('games', {
-      user: req.session.twitterScreenName,
-      title: 'Powerball',
-      games: games
-    });
-  } else {
-    res.render('game', {
-      user: req.session.twitterScreenName,
-      title: 'Powerball',
-      game: gameName,
-    });
-  }
-});
-
-app.get('/twitter', function(req, res){
-  oa.getOAuthRequestToken(function(error, oauthToken, oauthTokenSecret, results){
-    if (error) {
-      console.error(error);
-      res.redirect('/500');
-    } else {
-      req.session.oauthRequestToken = oauthToken;
-      req.session.oauthRequestTokenSecret = oauthTokenSecret;
-      res.redirect("https://twitter.com/oauth/authorize?oauth_token="+req.session.oauthRequestToken);
-    }
-  });
-})
-
-app.get('/sessions/callback', function(req, res){
-  oa.getOAuthAccessToken(req.session.oauthRequestToken, 
-                        req.session.oauthRequestTokenSecret, 
-                        req.query.oauth_verifier, 
-  function(error, oauthAccessToken, oauthAccessTokenSecret, results) {
-    if (error) {
-      console.error(error);
-      res.redirect('/500');
-    } else {
-      // TODO(David) Push oauthAccessToken and oauthAccessTokenSecret to datastore for offline use
-      req.session.oauthAccessToken = oauthAccessToken;
-      req.session.oauthAccessTokenSecret = oauthAccessTokenSecret;
-
-      // Right here is where we would write out some nice user stuff
-      oa.get("http://twitter.com/account/verify_credentials.json", 
-        req.session.oauthAccessToken, 
-        req.session.oauthAccessTokenSecret, 
-        function (error, data, response) {
-          if (error) {
-            console.error(error);
-            res.redirect('/500');
-          } else {
-            data1 = JSON.parse(data);
-            params = {
-              'name': data1["screen_name"].toLowerCase(),
-              'oauthAccessToken': req.session.oauthAccessToken,
-              'oauthAccessTokenSecret': req.session.oauthAccessTokenSecret,
-              };
-
-            dataProvider.putUser(params, function(error) {
-            });
-          
-            req.session.twitterScreenName = data1["screen_name"];
-            res.redirect('/');
-          }
-        });
-      }
-  });
-});
-
-app.post('/twitter', function(req, res){
-  console.log(req.body)
-  if (req.session.twitterScreenName){
-    oa.post("http://api.twitter.com/1/statuses/update.json", 
-        req.session.oauthAccessToken,
-        req.session.oauthAccessTokenSecret, req.body, 
-        function(error, data, response){
-          if(error){
-            console.error(error);
-            res.redirect('/500');
-          }
-        });
-  } else {
-    console.log('User not logged and tried to tweet');
-    res.json({"error": "not logged in"});
-  }
-});
+require('./routes/users')(app);
+require('./routes/games')(app);
+require('./routes/twitter')(app);
 
 app.get('/404', function(req, res, next){
   next();
