@@ -69,3 +69,14 @@ exports.testShouldLoadHealthPage = function(beforeExit, assert){
     }
   );
 }; 
+
+
+exports.testShouldGet404IfUserNotFound = function(beforeExit, assert){
+  assert.response(server, {
+      url: '/user/omgthiswontexist',
+    }, function(res){
+      assert.ok(res.statusCode === 404);
+      assert.ok(res.body.indexOf("I couldnt find"));
+    }
+  );
+}; 

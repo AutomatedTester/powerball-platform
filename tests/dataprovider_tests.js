@@ -29,3 +29,17 @@ exports.testThatMultiplePostsOfSameUserOnlyHasOneUser = function(beforeExit, ass
     }); 
   });
 };
+
+exports.testThatWeCanFindUserinDataStore = function(beforeExit, assert){
+  params = {
+            'name': 'userdetails',
+            'oauthAccessToken': 'req.session.oauthAccessToken',
+            'oauthAccessTokenSecret': 'req.session.oauthAccessTokenSecret',
+            };
+
+  dataProvider.putUser(params, function(error) {
+    dataProvider.findUser("userdetails", function(err, user){
+      assert.isDefined(user);
+    }); 
+  });
+}

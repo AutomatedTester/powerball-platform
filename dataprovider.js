@@ -22,16 +22,16 @@ DataProvider.prototype.findAll = function(callback) {
   });
 };
 
-DataProvider.prototype.findById = function(id, callback) {
-  User.findOne({name:id}, function (err, post) {
+DataProvider.prototype.findUser= function(user, callback) {
+  User.findOne({name:user}, function (err, user) {
     if (!err) {
-      callback(null, post);
+      callback(null, user);
     }
   });
 };
 
 DataProvider.prototype.putUser = function(params, callback) {
-  this.findById(params['name'], function(err, user){
+  this.findUser(params['name'], function(err, user){
     if (!user){
       var post = new User({name: params['name'],
         oauthAccessToken : params['oauthAccessToken'],
