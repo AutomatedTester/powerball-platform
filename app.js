@@ -81,7 +81,7 @@ app.post('/', function(req, res){
 });
 
 app.get('/user/:name', function(req, res){
-  dataProvider.findById(req.params.name, function(error, user) {
+  dataProvider.findUser(req.params.name, function(error, user) {
     if (user){
       res.render('user', {
         user: user.name || '',
@@ -160,7 +160,7 @@ app.get('/sessions/callback', function(req, res){
             'oauthAccessTokenSecret': req.session.oauthAccessTokenSecret,
             };
 
-          dataProvider.save(params, function( error, docs) {
+          dataProvider.putUser(params, function(error) {
           });
           
 

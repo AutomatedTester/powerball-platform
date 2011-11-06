@@ -23,7 +23,6 @@ DataProvider.prototype.findAll = function(callback) {
 };
 
 DataProvider.prototype.findById = function(id, callback) {
-  user = id;
   User.findOne({name:id}, function (err, post) {
     if (!err) {
       callback(null, post);
@@ -31,15 +30,20 @@ DataProvider.prototype.findById = function(id, callback) {
   });
 };
 
-DataProvider.prototype.save = function(params, callback) {
-  var post = new User({name: params['name'],
-    oauthAccessToken : params['oauthAccessToken'],
-    oauthAccessTokenSecret: params['oauthAccessTokenSecret'], 
-    created_at: new Date()});
+DataProvider.prototype.putUser = function(params, callback) {
+  this.findById(params['name'], function(err, user){
+    if (!user){
+      var post = new User({name: params['name'],
+        oauthAccessToken : params['oauthAccessToken'],
+        oauthAccessTokenSecret: params['oauthAccessTokenSecret'], 
+        created_at: new Date()});
   
-  post.save(function (err) {
-    callback();
+      post.save(function (err) {
+        callback();
+      });
+    }
   });
 };
 
 exports.DataProvider = DataProvider;
+exports.User = User;
