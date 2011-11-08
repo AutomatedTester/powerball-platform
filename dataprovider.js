@@ -16,12 +16,6 @@ var User = mongoose.model('user');
 
 DataProvider = function(){};
 
-DataProvider.prototype.findAll = function(callback) {
-  User.find({}, function (err, posts) {
-    callback( null, posts )
-  });
-};
-
 DataProvider.prototype.findUser= function(user, callback) {
   User.findOne({name:user}, function (err, user) {
     if (!err) {
