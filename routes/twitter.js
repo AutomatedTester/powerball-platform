@@ -5,13 +5,17 @@ var Oauth = OAuth = require('oauth').OAuth
 
 module.exports = function(app){
 
-var conkey
-  , consecret;
+var conkey = ''
+  , consecret = '';
 
-fileContents = fs.readFileSync("secret.txt", "UTF-8")
-detail = fileContents.split('\n');
-conkey = detail[0];
-consecret = detail[1];
+try{
+  fileContents = fs.readFileSync("secret.txt", "UTF-8")
+  detail = fileContents.split('\n');
+  conkey = detail[0];
+  consecret = detail[1];
+} catch (e) {
+  console.error(e.toString);
+}
 
 var dataProvider = new DataProvider('localhost', 27017);
 
