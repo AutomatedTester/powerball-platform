@@ -2,8 +2,7 @@ language: node_js
 node_js:
   - 0.4
 env:
-  - DB=mongo
-  - DB=redis
+  - DB=mongo DB=redis
 
 notifications:
   email:
