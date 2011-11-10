@@ -1,5 +1,5 @@
 var DataProvider = require('../dataprovider').DataProvider;
-var User = require('../dataProvider').User;
+var User = require('../dataprovider').User;
 var mongoose = require('mongoose');
 
 var dataProvider = new DataProvider('localhost', 27017);
