@@ -7,6 +7,7 @@
     , "jade": ">= 0.0.1"
     , "connect-redis": "1.0.7"
     , "mongoose": "2.3.5"
+    , "expresso": "0.9.2"
     }
   , "scripts": {
       "test": "expresso test/*"
