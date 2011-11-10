@@ -8,6 +8,7 @@
     , "connect-redis": "1.0.7"
     , "mongoose": "2.3.5"
     , "expresso": "0.9.2"
+    , "oauth": "0.9.5"
     }
   , "scripts": {
       "test": "expresso tests/*"
