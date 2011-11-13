@@ -1,3 +1,4 @@
 .monitor
+*.swo
 *.swp
 secret.txt
