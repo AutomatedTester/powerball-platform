@@ -40,7 +40,7 @@ app.configure(function(){
   });
 });
 
-var dataProvider = new DataProvider('localhost', 27017);
+var dataProvider = new DataProvider();
 
 app.configure('development', function(){
   app.use(express.errorHandler({ dumpExceptions: true, showStack: true })); 

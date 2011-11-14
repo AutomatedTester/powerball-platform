@@ -14,7 +14,7 @@ var User = new Schema({
 mongoose.model('user', User);
 var User = mongoose.model('user');
 
-DataProvider = function(){};
+var DataProvider = function(){};
 
 DataProvider.prototype.findUser= function(user, callback) {
   console.log("DataProvider.findUser has been called");
@@ -47,7 +47,7 @@ DataProvider.prototype.putUser = function(params, callback) {
 
 DataProvider.prototype.disconnect = function(){
   mongoose.disconnect();
-}
+};
 
 exports.DataProvider = DataProvider;
 exports.User = User;
