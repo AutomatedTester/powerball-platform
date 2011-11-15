@@ -4,3 +4,7 @@ An experiment in how to get people to help doing QA work with a scoring mechanis
 friends and other contributors. This is a project that grew out of a conversation with myself and Joel Maher while in
 Toronto. There will be many projects that link off this so watch this space!
 
+## Continuous Integration ##
+
+[![Build Status](https://secure.travis-ci.org/AutomatedTester/powerball-platform.png)](http://travis-ci.org/AutomatedTester/powerball-platform)
+
