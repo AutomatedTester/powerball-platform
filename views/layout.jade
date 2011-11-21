@@ -3,4 +3,12 @@ html
   head
     title= title
     link(rel='stylesheet', href='/stylesheets/style.css')
-  body!= body
+  body
+    p Welcome to #{title}
+    - if (user)
+      p Welcome #{user}
+    - else
+      p Would you like to sign in? 
+        a(href='/twitter') Sign in
+    div!=body
+    
