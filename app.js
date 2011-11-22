@@ -54,7 +54,7 @@ app.configure('production', function(){
 
 app.get('/', function(req, res){
   res.render('index', {
-    user: req.session.twitterScreenName,
+    user: req.session.twitterScreenName || req.session.browserid,
     title: 'Powerball'
   });
 });
@@ -66,6 +66,7 @@ app.post('/', function(req, res){
 require('./routes/users')(app);
 require('./routes/games')(app);
 require('./routes/twitter')(app);
+require('./routes/browserid')(app);
 
 app.get('/404', function(req, res, next){
   next();
