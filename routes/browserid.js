@@ -35,10 +35,10 @@ module.exports = function(app){
       });
     });
 
-
+    //TODO(David) update audience to use the URL the request came from
     var data = querystring.stringify({
       assertion: req.body.assertion,
-      audience: 'http://localhost:3000'
+      audience: 'http://powerball.theautomatedtester.co.uk'
     });
     
     browseridReq.setHeader('Content-Type', 'application/x-www-form-urlencoded');
