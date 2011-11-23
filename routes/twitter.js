@@ -22,7 +22,7 @@ var dataProvider = new DataProvider('localhost', 27017);
 
 
 app.get('/twitter', function(req, res){
-  var sessionHost = req.headers['host'] ? req.headers['host'] : 'http://localhost:3000';
+  var sessionHost = req.headers['host'] ? "http://" + req.headers['host'] : 'http://localhost:3000';
 
   var oa= new OAuth("https://twitter.com/oauth/request_token",
                  "https://twitter.com/oauth/access_token", 
@@ -42,7 +42,7 @@ app.get('/twitter', function(req, res){
 })
 
 app.get('/sessions/callback', function(req, res){
-  var sessionHost = req.headers['host'] ? req.headers['host'] : 'http://localhost:3000';
+  var sessionHost = req.headers['host'] ? "http://" + req.headers['host'] : 'http://localhost:3000';
 
   var oa= new OAuth("https://twitter.com/oauth/request_token",
                  "https://twitter.com/oauth/access_token", 
@@ -89,7 +89,7 @@ app.get('/sessions/callback', function(req, res){
 });
 
 app.post('/twitter', function(req, res){
-  var sessionHost = req.headers['host'] ? req.headers['host'] : 'http://localhost:3000';
+  var sessionHost = req.headers['host'] ? "http://" + req.headers['host'] : 'http://localhost:3000';
 
   var oa= new OAuth("https://twitter.com/oauth/request_token",
                  "https://twitter.com/oauth/access_token", 
