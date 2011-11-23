@@ -4,6 +4,9 @@ html
     title= title
     link(rel='stylesheet', href='/stylesheets/style.css')
   body
+    a(class='mozilla', href='http://www.mozilla.org') visit
+        span mozilla
+
     p Welcome to #{title}
     - if (user)
       p(id='signin') Welcome #{user}

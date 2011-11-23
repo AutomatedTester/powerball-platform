@@ -1,8 +1,23 @@
 body {
   padding: 50px;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  border-top: 2px solid #676767;
+  background: #fff url(/images/background.png) 0 0 repeat-x;
 }
 
 a {
   color: #00B7FF;
+}
+
+a.mozilla {
+  position: relative;
+  float: right;
+  display: block;
+  height: 49px;
+  width: 118px;
+  background: url(/images/mozilla-tab.png) 100% 0 no-repeat;
+  text-indent: -200px;
+  overflow: hidden;
+  margin-right: 20px;
+  margin-top: -50px;
 }
