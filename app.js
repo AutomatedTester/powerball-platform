@@ -53,7 +53,7 @@ app.configure('production', function(){
 // Routes
 
 app.get('/', function(req, res){
-  res.render('index', {
+  res.render('extend-index', {
     user: req.session.twitterScreenName || req.session.browserid || false,
     title: 'Powerball'
   });

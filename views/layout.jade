@@ -1,4 +1,4 @@
-!!!
+!!! 5
 html
   head
     title= title
@@ -7,14 +7,6 @@ html
     a(class='mozilla', href='http://www.mozilla.org') visit
         span mozilla
 
-    p Welcome to #{title}
-    - if (user)
-      p(id='signin') Welcome #{user}
-    - else
-      p(id='signin') Would you like to sign in? 
-        a(id='twitter', href='/twitter') 
-          img(src='/images/sign-in-with-twitter-l.png', alt='Sign in with twitter')
-        img(id='browserid', src='/images/sign_in_green.png', alt='Sign in with BrowserID')
     script(type="text/javascript", src='/javascripts/jquery-1.6.4.min.js')    
     div!=body
     script(src='https://browserid.org/include.js', type='text/javascript')

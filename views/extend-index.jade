@@ -1,0 +1,13 @@
+extends index
+
+block login
+  h1 Welcome to #{title}
+  p 
+    - if (user)
+      p(id='signin') Welcome #{user}
+    - else
+      p(id='signin') Would you like to sign in? 
+        a(id='twitter', href='/twitter') 
+          img(src='/images/sign-in-with-twitter-l.png', alt='Sign in with twitter')
+        img(id='browserid', src='/images/sign_in_green.png', alt='Sign in with BrowserID')
+
