@@ -19,10 +19,12 @@ try{
 
 var dataProvider = new DataProvider('localhost', 27017);
 
+var sessionHost = req.headers['host'] ? req.headers['host'] : 'http://localhost:3000';
+
 var oa= new OAuth("https://twitter.com/oauth/request_token",
                  "https://twitter.com/oauth/access_token", 
                  conkey, consecret, 
-                 "1.0A", 'http://powerball.theautomatedtester.co.uk/sessions/callback', "HMAC-SHA1");
+                 "1.0A", sessionHost + '/sessions/callback', "HMAC-SHA1");
 
 app.get('/twitter', function(req, res){
   oa.getOAuthRequestToken(function(error, oauthToken, oauthTokenSecret, results){

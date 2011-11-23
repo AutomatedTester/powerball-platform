@@ -31,15 +31,16 @@ module.exports = function(app){
       
           res.redirect('/');
         } else {
+          console.log(returnedData);
           //TODO(David) Lets send back something meaningful
         }
       });
     });
 
-    //TODO(David) update audience to use the URL the request came from
+    var audience = req.headers['host'] ? req.headers['host'] : 'http://localhost:3000';
     var data = querystring.stringify({
       assertion: req.body.assertion,
-      audience: 'http://powerball.theautomatedtester.co.uk'
+      audience: audience,
     });
     
     browseridReq.setHeader('Content-Type', 'application/x-www-form-urlencoded');
