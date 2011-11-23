@@ -19,14 +19,16 @@ try{
 
 var dataProvider = new DataProvider('localhost', 27017);
 
-var sessionHost = req.headers['host'] ? req.headers['host'] : 'http://localhost:3000';
 
-var oa= new OAuth("https://twitter.com/oauth/request_token",
+
+app.get('/twitter', function(req, res){
+  var sessionHost = req.headers['host'] ? req.headers['host'] : 'http://localhost:3000';
+
+  var oa= new OAuth("https://twitter.com/oauth/request_token",
                  "https://twitter.com/oauth/access_token", 
                  conkey, consecret, 
                  "1.0A", sessionHost + '/sessions/callback', "HMAC-SHA1");
 
-app.get('/twitter', function(req, res){
   oa.getOAuthRequestToken(function(error, oauthToken, oauthTokenSecret, results){
     if (error) {
       console.error(error);
@@ -40,6 +42,13 @@ app.get('/twitter', function(req, res){
 })
 
 app.get('/sessions/callback', function(req, res){
+  var sessionHost = req.headers['host'] ? req.headers['host'] : 'http://localhost:3000';
+
+  var oa= new OAuth("https://twitter.com/oauth/request_token",
+                 "https://twitter.com/oauth/access_token", 
+                 conkey, consecret, 
+                 "1.0A", sessionHost + '/sessions/callback', "HMAC-SHA1");
+
   oa.getOAuthAccessToken(req.session.oauthRequestToken, 
                         req.session.oauthRequestTokenSecret, 
                         req.query.oauth_verifier, 
@@ -72,7 +81,7 @@ app.get('/sessions/callback', function(req, res){
             });
           
             req.session.twitterScreenName = data1["screen_name"];
-            res.redirect('/');
+            res.redirect('back');
           }
         });
       }
@@ -80,7 +89,12 @@ app.get('/sessions/callback', function(req, res){
 });
 
 app.post('/twitter', function(req, res){
-  console.log(req.body)
+  var sessionHost = req.headers['host'] ? req.headers['host'] : 'http://localhost:3000';
+
+  var oa= new OAuth("https://twitter.com/oauth/request_token",
+                 "https://twitter.com/oauth/access_token", 
+                 conkey, consecret, 
+                 "1.0A", sessionHost + '/sessions/callback', "HMAC-SHA1");
   if (req.session.twitterScreenName){
     oa.post("http://api.twitter.com/1/statuses/update.json", 
         req.session.oauthAccessToken,
