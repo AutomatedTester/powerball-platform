@@ -54,7 +54,7 @@ app.configure('production', function(){
 
 app.get('/', function(req, res){
   res.render('index', {
-    user: req.session.twitterScreenName || req.session.browserid,
+    user: req.session.twitterScreenName || req.session.browserid || false,
     title: 'Powerball'
   });
 });
@@ -84,7 +84,7 @@ app.get('/500', function(req, res, next){
 
 app.get('/healthcheck', function(req, res){
   res.render('healthcheck', {
-    user: req.session.twitterScreenName,
+    user: false,
     title: 'Powerball'
   });
 });
