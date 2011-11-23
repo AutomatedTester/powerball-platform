@@ -1,5 +1,6 @@
 body {
   padding: 50px;
+  margin: 0px;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
   border-top: 2px solid #676767;
   background: #fff url(/images/background.png) 0 0 repeat-x;
@@ -10,8 +11,9 @@ a {
 }
 
 a.mozilla {
-  position: relative;
-  float: right;
+  position: absolute;
+  top:0;
+  right:20px;
   display: block;
   height: 49px;
   width: 118px;
@@ -19,5 +21,4 @@ a.mozilla {
   text-indent: -200px;
   overflow: hidden;
   margin-right: 20px;
-  margin-top: -50px;
 }
