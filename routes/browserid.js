@@ -28,10 +28,8 @@ module.exports = function(app){
           dataProvider.putUser(params, function(error) {
             console.error(error);
           }); 
-      
-          res.redirect('/');
+          res.redirect('back');
         } else {
-          console.log(returnedData);
           //TODO(David) Lets send back something meaningful
         }
       });
