@@ -19,7 +19,8 @@ module.exports = function(app){
       vres.on('data', function(chunk) {body+=chunk;})
       vres.on('end', function(){
         var returnedData = JSON.parse(body);
-        if (returnedData.status === 'failure'){
+        if (returnedData.status !== 'failure'){
+          
           req.session.browserid = returnedData.email
           var params = {
             "name": req.session.browserid,
