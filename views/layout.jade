@@ -6,9 +6,9 @@ html
   body
     p Welcome to #{title}
     - if (user)
-      p Welcome #{user}
+      p(id='signin') Welcome #{user}
     - else
-      p Would you like to sign in? 
+      p(id='signin') Would you like to sign in? 
         a(id='twitter', href='/twitter') 
           img(src='/images/sign-in-with-twitter-l.png', alt='Sign in with twitter')
         img(id='browserid', src='/images/sign_in_green.png', alt='Sign in with BrowserID')
@@ -20,10 +20,13 @@ html
         $('#browserid').click(function(){
           navigator.id.getVerifiedEmail(function(assertion) {
             if (assertion) {
-              $('#twitter').hide();
-              $('#browserid').hide();
               $.post('/browserid', {assertion: assertion}, function(data){
-                //TODO(David) Do something like update the username visible
+                var parsedData = data;
+                if (parsedData.result === 'success'){
+                  $('#twitter').hide();
+                  $('#browserid').hide();
+                  $('#signin').text("Welcome " + parsedData.email);
+                }
               });
 
             } else {

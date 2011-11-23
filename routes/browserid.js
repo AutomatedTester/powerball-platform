@@ -28,7 +28,8 @@ module.exports = function(app){
           dataProvider.putUser(params, function(error) {
             console.error(error);
           }); 
-          res.redirect('back');
+          res.json({result:"success", email: req.session.browserid});
+          
         } else {
           //TODO(David) Lets send back something meaningful
         }
