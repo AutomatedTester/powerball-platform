@@ -22,3 +22,9 @@ a.mozilla {
   overflow: hidden;
   margin-right: 20px;
 }
+
+.signin {
+  position:absolute; 
+  top:0px;
+  right:200px;
+}
