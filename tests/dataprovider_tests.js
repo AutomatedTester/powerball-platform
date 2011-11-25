@@ -1,58 +1,59 @@
 var DataProvider = require('../dataprovider').DataProvider
   , User = require('../dataprovider').User
   , mongoose = require('mongoose')
-  , dataProvider; 
+  , dataProvider
+  , assert = require('assert'); 
 
-module.exports = {
-  setUp: function (callback) {
+describe('DataProvider', function(){
+  beforeEach(function(){
     dataProvider = new DataProvider('localhost', 27017);
     mongoose.connect('mongodb://localhost/powerball');
-    callback();
-  },
+  });
 
-  testThatMultiplePostsOfSameUserOnlyHasOneUser : function(test){
-    params = {
+  describe("Users", function(){
+    it('Should only have 1 user if we try post multiple times', function(done){
+      var params = {
               'name': 'tests',
               'oauthAccessToken': 'req.session.oauthAccessToken',
               'oauthAccessTokenSecret': 'req.session.oauthAccessTokenSecret',
               };
-    test.expect(5);
-    dataProvider.putUser(params, function(error) {
-      test.equal(error, undefined);
+      dataProvider.putUser(params, function(error) {
+      assert.ok(error === undefined);
       User.count({name: 'tests'}, function(err, count){
-          test.equal(count, 1, count);
+          assert.ok(count === 1, count);
         
           dataProvider.putUser(params, function(error) {
-            test.equal(error, undefined);
+            assert.ok(error === undefined);
             User.count({name: 'tests'}, function(err, count){
-              test.equal(err, null);
-              test.equal(count, 1, count);
-              test.done();
+              assert.ok(err == null);
+              assert.ok(count === 1, count);
+              done();
             }); 
           });
-      }); 
+        }); 
+      })
     })
-  },
 
-  testThatWeCanFindUserinDataStore : function(test){
-    params = {
+    it('Should Can Find User in DataStore ', function(done){
+      var params = {
             'name': 'userdetails',
             'oauthAccessToken': 'req.session.oauthAccessToken',
             'oauthAccessTokenSecret': 'req.session.oauthAccessTokenSecret',
             };
 
-    dataProvider.putUser(params, function(error) {
-      dataProvider.findUser("userdetails", function(err, user){
-        test.equal(params['name'], user['name']);
-        test.done();  
+      dataProvider.putUser(params, function(error) {
+        dataProvider.findUser("userdetails", function(err, user){
+          assert.ok(params['name'] === user['name']);
+          done();  
+        });
       });
-    });
-  },
+    })
 
-  tearDown: function (callback) {
+  });
+
+  afterEach(function(){
     User.remove({});
     mongoose.disconnect();
     dataProvider.disconnect();
-    callback();
-  },
-}
+  });
+});
