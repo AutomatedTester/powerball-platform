@@ -11,7 +11,8 @@ describe('DataProvider', function(){
   });
 
   describe("Users", function(){
-    it('Should only have 1 user if we try post multiple times', function(done){
+    /*
+     it('Should only have 1 user if we try post multiple times', function(done){
       var params = {
               'name': 'tests',
               'oauthAccessToken': 'req.session.oauthAccessToken',
@@ -32,7 +33,7 @@ describe('DataProvider', function(){
           });
         }); 
       })
-    })
+    })*/
 
     it('Should Can Find User in DataStore ', function(done){
       var params = {

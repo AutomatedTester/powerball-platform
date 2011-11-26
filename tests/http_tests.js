@@ -91,7 +91,8 @@ describe('server', function(){
     });
   });
 
-  /*it('should get 404 if user is not found', function(done){
+  /*
+  it('should get 404 if user is not found', function(done){
       http.get({ path: '/user/omgthiswontexist', port: 3000 }, function(res){
       assert.ok(res.statusCode === 404);
       var buf = '';
@@ -101,5 +102,6 @@ describe('server', function(){
         done();
       });
     });
-  });*/
+  });
+  */
 });
