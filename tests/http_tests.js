@@ -91,17 +91,16 @@ describe('server', function(){
     });
   });
 
-  /*
   it('should get 404 if user is not found', function(done){
       http.get({ path: '/user/omgthiswontexist', port: 3000 }, function(res){
       assert.ok(res.statusCode === 404);
       var buf = '';
       res.on('data', function(chunk){buf += chunk});
       res.on('end', function(){
-        assert.ok(buf.indexOf("I couldnt find") >= 0);
+        assert.ok(buf.indexOf("I couldnt find /user/omgthiswontexist", buf) >= 0);
         done();
       });
     });
   });
-  */
+  
 });
