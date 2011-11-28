@@ -7,7 +7,7 @@ body {
 }
 
 a {
-  color: #00B7FF;
+  color: black;
 }
 
 a.mozilla {
@@ -34,4 +34,30 @@ footer {
   left:40%;
   bottom: 10px;
   font-size:8px;
+}
+
+ul#nav {
+  font-size:13px;
+  list-style:none outside none;
+  position:relative;
+  overflow:auto;
+}
+
+ul#nav li {
+  float:left;
+  margin: 0 7px;
+}
+
+ul#nav li a {
+ display:block;
+ text-align:center;
+ outline: 0pt none;
+ colour: rgb(94,94,94);
+ padding:10px;
+ width:106px;
+ border: 1px solid rgba(176, 193, 210, 0.3);
+ border-radius: 6px 6px 6px 6px;
+ box-shadow: 0pt 0pt 0pt 1px rgba(255, 255, 255, 0.5) inset;
+ -moz-transition: all 0.25s ease-out 0s;
+ -moz-user-select: none;
 }
