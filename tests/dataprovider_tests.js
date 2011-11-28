@@ -6,12 +6,11 @@ var DataProvider = require('../dataprovider').DataProvider
 
 describe('DataProvider', function(){
   beforeEach(function(){
-    dataProvider = new DataProvider('localhost', 27017);
+    dataProvider = new DataProvider();
     mongoose.connect('mongodb://localhost/powerball');
   });
 
   describe("Users", function(){
-    /*
      it('Should only have 1 user if we try post multiple times', function(done){
       var params = {
               'name': 'tests',
@@ -19,8 +18,8 @@ describe('DataProvider', function(){
               'oauthAccessTokenSecret': 'req.session.oauthAccessTokenSecret',
               };
       dataProvider.putUser(params, function(error) {
-      assert.ok(error === undefined);
-      User.count({name: 'tests'}, function(err, count){
+        assert.ok(error === undefined);
+        User.count({name: 'tests'}, function(err, count){
           assert.ok(count === 1, count);
         
           dataProvider.putUser(params, function(error) {
@@ -33,7 +32,7 @@ describe('DataProvider', function(){
           });
         }); 
       })
-    })*/
+    })
 
     it('Should Can Find User in DataStore ', function(done){
       var params = {
@@ -54,7 +53,5 @@ describe('DataProvider', function(){
 
   afterEach(function(){
     User.remove({});
-    mongoose.disconnect();
-    dataProvider.disconnect();
   });
 });
