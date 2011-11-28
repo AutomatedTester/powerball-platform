@@ -28,3 +28,10 @@ a.mozilla {
   top:0px;
   right:200px;
 }
+
+footer {
+  position:absolute;
+  left:40%;
+  bottom: 10px;
+  font-size:8px;
+}
