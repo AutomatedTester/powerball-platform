@@ -4,8 +4,7 @@
  */
 
 var express = require('express')
-  , RedisStore = require('connect-redis')
-  , DataProvider = require('./dataprovider').DataProvider;
+  , RedisStore = require('connect-redis');
 
 var app = module.exports = express.createServer();
 var RedisStore = require('connect-redis')(express);
@@ -39,8 +38,6 @@ app.configure(function(){
     res.render('404', { title: 'Powerball', status: 404, url: req.url });
   });
 });
-
-var dataProvider = new DataProvider();
 
 app.configure('development', function(){
   app.use(express.errorHandler({ dumpExceptions: true, showStack: true })); 
