@@ -48,7 +48,6 @@ describe('DataProvider', function(){
         });
       });
     })
-
   });
 
   afterEach(function(){
