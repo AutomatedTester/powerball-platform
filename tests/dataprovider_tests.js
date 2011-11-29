@@ -62,7 +62,7 @@ describe('DataProvider', function(){
         assert.ok(error == null);
         Score.count({user:'testUser1'}, function(err, count){
           assert.ok(err == null);
-          assert.ok(count > 1, count);
+          assert.ok(count >= 1, count);
           done();
         });
       });
