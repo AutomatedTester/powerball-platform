@@ -40,12 +40,13 @@ DataProvider.prototype.findUser= function(user, callback) {
 
 DataProvider.prototype.putUser = function(params, callback) {
   console.log("DataProvider.putUser has been called");
-  this.findUser(params['name'], function(err, user){
+  this.findUser(params.name, function(err, user){
     if (!user){
-      var post = new User({name: params['name'],
-        oauthAccessToken : params['oauthAccessToken'],
-        oauthAccessTokenSecret: params['oauthAccessTokenSecret'], 
-        created_at: new Date()});
+      var post = new User({
+        name: params.name
+        , oauthAccessToken : params.oauthAccessToken
+        , oauthAccessTokenSecret: params.oauthAccessTokenSecret
+        , created_at: new Date()});
   
       post.save(function (err) {
         callback(err);
