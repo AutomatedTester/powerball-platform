@@ -61,3 +61,11 @@ ul#nav li a {
  -moz-transition: all 0.25s ease-out 0s;
  -moz-user-select: none;
 }
+
+@media all and (max-width: 600px){
+  .signin{
+    margin:0px;
+    padding: 2px;
+    right: 150px;
+  }
+}
