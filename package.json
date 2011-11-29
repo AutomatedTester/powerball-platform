@@ -11,6 +11,6 @@
     , "oauth": "0.9.5"
     }
   , "scripts": {
-      "test": "mocha tests/* -t 10000"
+      "test": "mocha tests/* -t 60000"
     }
 }
