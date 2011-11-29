@@ -58,7 +58,11 @@ DataProvider.prototype.putUser = function(params, callback) {
 
 DataProvider.prototype.putScore = function(params, callback){
   console.log("DataProvider.putScore has been called");
-  var score = new Score({ user : params.user, game : params.game , points : params.points , created_at : new Date() });
+  var score = new Score({ 
+    user : params.user
+    , game : params.game 
+    , points : params.points
+    , created_at : new Date() });
 
   score.save(function(err){
     callback(err);
