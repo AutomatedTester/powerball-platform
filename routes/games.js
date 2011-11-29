@@ -12,7 +12,7 @@ module.exports = function(app){
 
   app.get('/game/:gamename', function(req, res){
     var gameName = req.params.gamename;
-    if (!(gameName in games)){ 
+    if (!(games.hasOwnProperty(gameName))){ 
       res.render('games', {
         user: req.session.twitterScreenName,
         title: 'Powerball',
@@ -26,4 +26,4 @@ module.exports = function(app){
       });
     }
   });
-}
+};

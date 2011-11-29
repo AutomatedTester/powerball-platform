@@ -1,114 +1,113 @@
-var Oauth = OAuth = require('oauth').OAuth
+var OAuth = require('oauth').OAuth
   , fs = require('fs')
   , DataProvider = require('../dataprovider').DataProvider;
 
 
 module.exports = function(app){
 
-var conkey = ''
-  , consecret = '';
+  var conkey = ''
+    , consecret = ''
+    , fileContents = ''
+    , detail = []
+    , dataProvider = new DataProvider('localhost', 27017);
 
-try{
-  fileContents = fs.readFileSync("secret.txt", "UTF-8")
-  detail = fileContents.split('\n');
-  conkey = detail[0];
-  consecret = detail[1];
-} catch (e) {
-  console.error(e.toString);
-}
+  try{
+    fileContents = fs.readFileSync("secret.txt", "UTF-8");
+    detail = fileContents.split('\n');
+    conkey = detail[0];
+    consecret = detail[1];
+  } catch (e) {
+    console.error(e);
+  }
 
-var dataProvider = new DataProvider('localhost', 27017);
-
-
-
-app.get('/twitter', function(req, res){
-  var sessionHost = req.headers['host'] ? "http://" + req.headers['host'] : 'http://localhost:3000';
-
-  var oa= new OAuth("https://twitter.com/oauth/request_token",
+  app.get('/twitter', function(req, res){
+    var sessionHost = req.headers.host ? 
+      "http://" + req.headers.host : 'http://localhost:3000',
+    oa= new OAuth("https://twitter.com/oauth/request_token",
                  "https://twitter.com/oauth/access_token", 
                  conkey, consecret, 
                  "1.0A", sessionHost + '/sessions/callback', "HMAC-SHA1");
 
-  oa.getOAuthRequestToken(function(error, oauthToken, oauthTokenSecret, results){
-    if (error) {
-      console.error(error);
-      res.redirect('/500');
-    } else {
-      req.session.oauthRequestToken = oauthToken;
-      req.session.oauthRequestTokenSecret = oauthTokenSecret;
-      res.redirect("https://twitter.com/oauth/authorize?oauth_token="+req.session.oauthRequestToken);
-    }
+    oa.getOAuthRequestToken(function(error, oauthToken, oauthTokenSecret, results){
+      if (error) {
+        console.error(error);
+        res.redirect('/500');
+      } else {
+        req.session.oauthRequestToken = oauthToken;
+        req.session.oauthRequestTokenSecret = oauthTokenSecret;
+        res.redirect("https://twitter.com/oauth/authorize?oauth_token=" + 
+          req.session.oauthRequestToken);
+      }
+    });
   });
-})
 
-app.get('/sessions/callback', function(req, res){
-  var sessionHost = req.headers['host'] ? "http://" + req.headers['host'] : 'http://localhost:3000';
-
-  var oa= new OAuth("https://twitter.com/oauth/request_token",
+  app.get('/sessions/callback', function(req, res){
+    var sessionHost = req.headers.host ? 
+      "http://" + req.headers.host : 'http://localhost:3000',
+    oa = new OAuth("https://twitter.com/oauth/request_token",
                  "https://twitter.com/oauth/access_token", 
                  conkey, consecret, 
                  "1.0A", sessionHost + '/sessions/callback', "HMAC-SHA1");
 
-  oa.getOAuthAccessToken(req.session.oauthRequestToken, 
+    oa.getOAuthAccessToken(req.session.oauthRequestToken, 
                         req.session.oauthRequestTokenSecret, 
                         req.query.oauth_verifier, 
-  function(error, oauthAccessToken, oauthAccessTokenSecret, results) {
-    if (error) {
-      console.error(error);
-      res.redirect('/500');
-    } else {
-      // TODO(David) Push oauthAccessToken and oauthAccessTokenSecret to datastore for offline use
-      req.session.oauthAccessToken = oauthAccessToken;
-      req.session.oauthAccessTokenSecret = oauthAccessTokenSecret;
+    function(error, oauthAccessToken, oauthAccessTokenSecret, results) {
+      if (error) {
+        console.error(error);
+        res.redirect('/500');
+      } else {
+        req.session.oauthAccessToken = oauthAccessToken;
+        req.session.oauthAccessTokenSecret = oauthAccessTokenSecret;
 
-      // Right here is where we would write out some nice user stuff
-      oa.get("http://twitter.com/account/verify_credentials.json", 
-        req.session.oauthAccessToken, 
-        req.session.oauthAccessTokenSecret, 
-        function (error, data, response) {
-          if (error) {
-            console.error(error);
-            res.redirect('/500');
-          } else {
-            data1 = JSON.parse(data);
-            params = {
-              'name': data1["screen_name"].toLowerCase(),
-              'oauthAccessToken': req.session.oauthAccessToken,
-              'oauthAccessTokenSecret': req.session.oauthAccessTokenSecret,
+        // Right here is where we would write out some nice user stuff
+        oa.get("http://twitter.com/account/verify_credentials.json", 
+          req.session.oauthAccessToken, 
+          req.session.oauthAccessTokenSecret, 
+          function (error, data, response) {
+            if (error) {
+              console.error(error);
+              res.redirect('/500');
+            } else {
+              var data1 = JSON.parse(data)
+              , params = {
+                'name': data1.screen_name.toLowerCase(),
+                'oauthAccessToken': req.session.oauthAccessToken,
+                'oauthAccessTokenSecret': req.session.oauthAccessTokenSecret,
               };
 
-            dataProvider.putUser(params, function(error) {
-            });
-          
-            req.session.twitterScreenName = data1["screen_name"];
-            res.redirect('back');
-          }
-        });
-      }
+              dataProvider.putUser(params, function(error) {
+                console.log("Error when putting user. Error: " + error);
+              });
+            
+              req.session.twitterScreenName = data1.screen_name;
+              res.redirect('back');
+            }
+          });
+        }
+    });
   });
-});
 
-app.post('/twitter', function(req, res){
-  var sessionHost = req.headers['host'] ? "http://" + req.headers['host'] : 'http://localhost:3000';
-
-  var oa= new OAuth("https://twitter.com/oauth/request_token",
+  app.post('/twitter', function(req, res){
+    var sessionHost = req.headers.host ? 
+      "http://" + req.headers.host : 'http://localhost:3000'
+    , oa= new OAuth("https://twitter.com/oauth/request_token",
                  "https://twitter.com/oauth/access_token", 
                  conkey, consecret, 
                  "1.0A", sessionHost + '/sessions/callback', "HMAC-SHA1");
-  if (req.session.twitterScreenName){
-    oa.post("http://api.twitter.com/1/statuses/update.json", 
-        req.session.oauthAccessToken,
-        req.session.oauthAccessTokenSecret, req.body, 
-        function(error, data, response){
-          if(error){
-            console.error(error);
-            res.redirect('/500');
-          }
-        });
-  } else {
-    console.log('User not logged and tried to tweet');
-    res.json({"error": "not logged in"});
-  }
-});
-
-}
+    if (req.session.twitterScreenName){
+      oa.post("http://api.twitter.com/1/statuses/update.json", 
+          req.session.oauthAccessToken,
+          req.session.oauthAccessTokenSecret, req.body, 
+          function(error, data, response){
+            if(error){
+              console.error(error);
+              res.redirect('/500');
+            }
+          });
+    } else {
+      console.log('User not logged and tried to tweet');
+      res.json({"error": "not logged in"});
+    }
+  });
+};

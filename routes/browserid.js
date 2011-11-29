@@ -13,18 +13,19 @@ module.exports = function(app){
       port: 443,
       path: '/verify',
       method: 'POST'
-    }
-    var browseridReq = https.request(options, function(vres){
+    },
+    browseridReq = https.request(options, function(vres){
       var body = "";
-      vres.on('data', function(chunk) {body+=chunk;})
+      vres.on('data', function(chunk) {body+=chunk;});
       vres.on('end', function(){
         var returnedData = JSON.parse(body);
         if (returnedData.status !== 'failure'){
           
-          req.session.browserid = returnedData.email
+          req.session.browserid = returnedData.email;
           var params = {
             "name": req.session.browserid,
-          }
+          };
+
           dataProvider.putUser(params, function(error) {
             console.error(error);
           }); 
@@ -34,10 +35,9 @@ module.exports = function(app){
           //TODO(David) Lets send back something meaningful
         }
       });
-    });
-
-    var audience = req.headers['host'] ? req.headers['host'] : 'http://localhost:3000';
-    var data = querystring.stringify({
+    }),
+    audience = req.headers.host ? req.headers.host : 'http://localhost:3000',
+    data = querystring.stringify({
       assertion: req.body.assertion,
       audience: audience,
     });
@@ -52,4 +52,4 @@ module.exports = function(app){
       res.redirect('/500');
     });
   });
-}
+};
