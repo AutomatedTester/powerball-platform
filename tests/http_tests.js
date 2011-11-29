@@ -3,7 +3,7 @@ var http = require('http');
 var assert = require('assert');
 
 describe('server', function(){
-  it('should allow access to /', function(done){
+  /*it('should allow access to /', function(done){
       http.get({ path: '/', port: 3000 }, function(res){
       assert.ok(res.statusCode === 200);
       var buf = '';
@@ -13,7 +13,7 @@ describe('server', function(){
         done();
       });
     });
-  });
+  });*/
 
   it('Shouldnt Be Able To Post To Root', function(done){
     var req = http.request({ path: '/', port: 3000, method: "POST" }, function(res) {
