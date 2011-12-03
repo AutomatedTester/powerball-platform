@@ -77,7 +77,9 @@ module.exports = function(app){
               };
 
               dataProvider.putUser(params, function(error) {
-                console.log("Error when putting user. Error: " + error);
+                if (error){
+                  console.error("Error when putting user. Error: " + error);
+                }
               });
             
               req.session.powerballUser = data1.screen_name;
