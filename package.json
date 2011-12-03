@@ -7,10 +7,10 @@
     , "jade": ">= 0.0.1"
     , "connect-redis": "1.0.7"
     , "mongoose": "2.3.5"
-    , "mocha": "0.0.8"
+    , "mocha": "0.2.0"
     , "oauth": "0.9.5"
     }
   , "scripts": {
-      "test": "mocha tests/* -t 60000"
+      "test": "mocha tests/* -t 60000 --globals name"
     }
 }
