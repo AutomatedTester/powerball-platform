@@ -80,7 +80,7 @@ module.exports = function(app){
                 console.log("Error when putting user. Error: " + error);
               });
             
-              req.session.twitterScreenName = data1.screen_name;
+              req.session.powerballUser = data1.screen_name;
               res.redirect('back');
             }
           });
@@ -95,7 +95,7 @@ module.exports = function(app){
                  "https://twitter.com/oauth/access_token", 
                  conkey, consecret, 
                  "1.0A", sessionHost + '/sessions/callback', "HMAC-SHA1");
-    if (req.session.twitterScreenName){
+    if (req.session.powerballUser){
       oa.post("http://api.twitter.com/1/statuses/update.json", 
           req.session.oauthAccessToken,
           req.session.oauthAccessTokenSecret, req.body, 

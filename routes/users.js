@@ -7,7 +7,7 @@ module.exports = function(app){
     dataProvider.findUser(req.params.name, function(error, user) {
       if (user){
         res.render('user', {
-          user: req.session.twitterScreenName || req.session.browserid || false,
+          user: req.session.powerballUser || false,
           userProf : user.name,
           title: 'Powerball'
         });

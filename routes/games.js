@@ -4,7 +4,7 @@ module.exports = function(app){
 
   app.get('/games', function(req, res){
     res.render('games', {
-        user: req.session.twitterScreenName || req.session.browserid || false,
+        user: req.session.powerballUser || false,
         title: 'Powerball',
         games: Object.keys(games),
       });
@@ -14,13 +14,13 @@ module.exports = function(app){
     var gameName = req.params.gamename;
     if (!(games.hasOwnProperty(gameName))){ 
       res.render('games', {
-        user: req.session.twitterScreenName || req.session.browserid || false,
+        user: req.session.powerballUser || false,
         title: 'Powerball',
         games: games
       });
     } else {
       res.render('game', {
-        user: req.session.twitterScreenName || req.session.browserid || false,
+        user: req.session.powerballUser || false,
         title: 'Powerball',
         game: gameName,
       });

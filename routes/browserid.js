@@ -21,15 +21,15 @@ module.exports = function(app){
         var returnedData = JSON.parse(body);
         if (returnedData.status !== 'failure'){
           
-          req.session.browserid = returnedData.email;
+          req.session.powerballUser = returnedData.email;
           var params = {
-            "name": req.session.browserid,
+            "name": req.session.powerballUser,
           };
 
           dataProvider.putUser(params, function(error) {
             console.error(error);
           }); 
-          res.json({result:"success", email: req.session.browserid});
+          res.json({result:"success", email: req.session.powerballUser});
           
         } else {
           //TODO(David) Lets send back something meaningful

@@ -26,6 +26,7 @@ app.configure(function(){
     // we possibly recovered from the error, simply next().
     console.error(err.stack);
     res.render('500', {title: 'Powerball',
+        user: req.session.powerballUser || false,
         status: err.status || 500
       , error: err
     });
@@ -35,7 +36,11 @@ app.configure(function(){
     // are equivalent, however with the option we
     // get the "status" local available as well
     console.error("Url " + req.url + " was not found");
-    res.render('404', { title: 'Powerball', user: false, status: 404, url: req.url });
+    res.render('404', { title: 'Powerball', 
+        user: req.session.powerballUser || false, 
+        status: 404, 
+        url: req.url,
+    });
   });
 });
 
@@ -51,7 +56,7 @@ app.configure('production', function(){
 
 app.get('/', function(req, res){
   res.render('extend-index', {
-    user: req.session.twitterScreenName || req.session.browserid || false,
+    user: req.session.powerballUser || false,
     title: 'Powerball'
   });
 });
