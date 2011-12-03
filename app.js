@@ -35,7 +35,7 @@ app.configure(function(){
     // are equivalent, however with the option we
     // get the "status" local available as well
     console.error("Url " + req.url + " was not found");
-    res.render('404', { title: 'Powerball', status: 404, url: req.url });
+    res.render('404', { title: 'Powerball', user: false, status: 404, url: req.url });
   });
 });
 
