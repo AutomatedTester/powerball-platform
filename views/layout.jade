@@ -33,7 +33,7 @@ html
                 if (parsedData.result === 'success'){
                   $('#twitter').hide();
                   $('#browserid').hide();
-                  $('#signin').text("Welcome " + parsedData.email);
+                  $('#signin').html("Welcome <a href='/user/" + parsedData.email + "'>" + parsedData.email + "</a>");
                 }
               });
 

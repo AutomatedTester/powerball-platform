@@ -1,6 +1,7 @@
 p 
   - if (user)
-    p(id='signin',class='signin') Welcome #{user}
+    p(id='signin',class='signin') Welcome 
+      a(href='/user/#{user}') #{user}
   - else
     p(id='signin', class='signin') 
       a(id='twitter', href='/twitter') 
