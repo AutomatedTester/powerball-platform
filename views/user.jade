@@ -1,1 +1,11 @@
-p #{userProf} is awesome
+h2 #{userProf}
+p #{userProf} has been a super star just by joining and playing games! Their current score is #{score}!
+section(id='badges')
+  h3 Badges
+  //TODO(David) Think about badges. THis is required for issue #13 on github
+  p This needs to be worked on!
+section(id='key')
+p 
+  - if (userID)
+    p your key is #{userID} this is required for you to use the Powerball addon available at 
+      a(href='#') TODO(David) get this from JMaher
