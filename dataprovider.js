@@ -7,7 +7,9 @@ var Schema = mongoose.Schema
 //Schemas
 var User = new Schema({
     name: String
-  , token : String
+  , email: {type: String, unique: true}
+  , website: String
+  , qmo: String
   , key : String
   , created_at : Date
 });
