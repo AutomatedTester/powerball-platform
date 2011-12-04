@@ -1,8 +1,12 @@
-var server = require('../app');
-var http = require('http');
-var assert = require('assert');
+var http = require('http')
+  , assert = require('assert');
 
 describe('server', function(){
+  
+  beforeEach(function(){
+    var server = require('../app');
+  });
+  
   /*it('should allow access to /', function(done){
       http.get({ path: '/', port: 3000 }, function(res){
       assert.ok(res.statusCode === 200);
