@@ -11,6 +11,6 @@
     , "oauth": "0.9.5"
     }
   , "scripts": {
-      "test": "mocha tests/* -t 60000 --globals name"
+      "test": "mocha tests/* -t 540000 --globals name"
     }
 }
