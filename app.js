@@ -15,7 +15,7 @@ app.configure(function(){
   app.set('views', __dirname + '/views');
   app.set('view engine', 'jade');
   app.use(express.bodyParser());
-  app.use(express.logger());
+  //app.use(express.logger());
   app.use(express.methodOverride());
   app.use(express.cookieParser());
   app.use(express.session({ secret: 'showMeTheMoney', store: new RedisStore }));
@@ -70,6 +70,9 @@ require('./routes/users')(app);
 require('./routes/games')(app);
 require('./routes/twitter')(app);
 require('./routes/browserid')(app);
+require('./routes/score')(app);
+
+
 
 app.get('/404', function(req, res, next){
   next();
