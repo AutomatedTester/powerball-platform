@@ -5,13 +5,15 @@ var Schema = mongoose.Schema
 
 //Schemas
 var User = new Schema({
-    name: {type: String, unique: true}
+    name: String
  // , email: {type: String, unique: true}
   , website: String
   , qmo: String
   , key : String
   , created_at : Date
 });
+
+User.index({ first: 1, last: 1 }, { unique: true })
 
 var Score = new Schema({
     user : String
@@ -35,6 +37,17 @@ DataProvider.prototype.findUser= function(user, callback) {
   User.findOne({name:user}, function (err, ruser) {
     if (!err) {
       callback(null, ruser);
+    } else {
+      callback(err, null);
+    }
+  });
+};
+
+DataProvider.prototype.findUserById = function(userid, callback){
+  console.log("DataProvider.findUserById has been called");
+  User.findOne({_id: userid}, function (err, ruserid){
+    if (!err) {
+      callback(null, ruserid);
     } else {
       callback(err, null);
     }

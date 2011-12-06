@@ -23,6 +23,7 @@ describe('DataProvider', function(){
       dataProvider.putUser(params, function(error) {
         assert.ok(error == null);
         dataProvider.putUser(params, function(err){
+          assert.ok(err == null);
           done();  
         });
       });
@@ -60,8 +61,30 @@ describe('DataProvider', function(){
           done();  
         });
       });
-    })
+    });
+
+    it('should find a user by their id', function(done){
+      var params = {
+            'name': 'userdetails2',
+           // 'email': 'foo@bar.com',
+            'oauthAccessToken': 'req.session.oauthAccessToken',
+            'oauthAccessTokenSecret': 'req.session.oauthAccessTokenSecret',
+            };
+
+      dataProvider.putUser(params, function(error) {
+        assert.ok(error == null);
+        dataProvider.findUser(params.name, function(err, user){
+          assert.ok(params['name'] === user['name']);
+          dataProvider.findUserById(user._id, function(errs, iduser){
+            assert.ok(params.name === iduser.name); 
+            done();  
+          })
+        });
+      });
+    });
   });
+
+  
 
   describe('scoring', function(){
     it('should allow me to store a score message', function(done){

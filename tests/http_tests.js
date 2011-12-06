@@ -1,13 +1,15 @@
 var http = require('http')
-  , assert = require('assert');
+  , assert = require('assert')
+  , server = require('../app')
+  , User = require('../dataprovider').User;
 
 describe('server', function(){
   
   beforeEach(function(){
-    var server = require('../app');
+    //
   });
   
-  /*it('should allow access to /', function(done){
+  it('should allow access to /', function(done){
       http.get({ path: '/', port: 3000 }, function(res){
       assert.ok(res.statusCode === 200);
       var buf = '';
@@ -17,7 +19,7 @@ describe('server', function(){
         done();
       });
     });
-  });*/
+  });
 
   it('Shouldnt Be Able To Post To Root', function(done){
     var req = http.request({ path: '/', port: 3000, method: "POST" }, function(res) {
@@ -105,5 +107,94 @@ describe('server', function(){
         done();
       });
     });
+  });
+
+  it('should get 200 and a message saying it failed when calling /score', function(done){
+    var req = http.request({ path: '/score', port: 3000, method: "POST" }, function(res) {
+      assert.ok(res.statusCode === 200);
+      var buf = '';
+      res.on('data', function(chunk){
+        buf += chunk
+      });
+      res.on('end', function(){
+        var result = JSON.parse(buf);
+        assert.ok(result.result === "failure");
+        done();
+      });
+    });
+
+    req.on('error', function(e) {
+      console.log('problem with request: ' + e.message);
+    });
+
+    // write data to request body
+    req.write('data\n');
+    req.write('data\n');
+    req.end();
+  });
+
+  it('should get a 200 and a message saying failure when calling /score/foo', function(done){
+    var req = http.request({ path: '/score/foo', port: 3000, method: "POST" }, function(res) {
+      assert.ok(res.statusCode === 200);
+      var buf = '';
+      res.on('data', function(chunk){
+        buf += chunk
+      });
+      res.on('end', function(){
+        var result = JSON.parse(buf);
+        assert.ok(result.result === "failure");
+        done();
+      });
+    });
+
+    req.on('error', function(e) {
+      console.log('problem with request: ' + e.message);
+    });
+
+    // write data to request body
+    req.write('data\n');
+    req.write('data\n');
+    req.end();
+  });
+
+  it('should error if it cant find the id in datastore', function(done){
+    var params = {
+              'name': 'tests2',
+              'oauthAccessToken': 'req.session.oauthAccessToken',
+              'oauthAccessTokenSecret': 'req.session.oauthAccessTokenSecret',
+              };
+    var mongoose = require('mongoose');
+    mongoose.connect('mongodb://localhost/powerball');
+
+    var post = new User({
+        name: params.name
+        , oauthAccessToken : params.oauthAccessToken
+        , oauthAccessTokenSecret: params.oauthAccessTokenSecret
+        , created_at: new Date()});
+  
+    post.save(function (err) {
+      console.log(" in save callback error: " + err);
+      var req = http.request({ path: '/score/foo/l10n', port: 3000, method: "POST" }, function(res) {
+        console.log("my status is " + res.statusCode);
+        assert.ok(res.statusCode === 200);
+        var buf = '';
+        res.on('data', function(chunk){
+          buf += chunk
+        });
+        res.on('end', function(){
+          var result = JSON.parse(buf);
+          assert.ok(result.result === "failure");
+          done();
+        });
+      });
+
+      req.on('error', function(e) {
+        console.log('problem with request: ' + e.message);
+      });
+      // write data to request body
+      req.write('data\n');
+      req.write('data\n');
+      req.end();
+    }); 
   });
 });
