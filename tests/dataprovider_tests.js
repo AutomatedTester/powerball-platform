@@ -12,38 +12,53 @@ describe('DataProvider', function(){
   });
 
   describe("Users", function(){
-     it('Should only have 1 user if we try post multiple times', function(done){
+    it('Should only have 1 user if we try post multiple times', function(done){
       var params = {
-              'name': 'tests',
-              'oauthAccessToken': 'req.session.oauthAccessToken',
-              'oauthAccessTokenSecret': 'req.session.oauthAccessTokenSecret',
-              };
-      dataProvider.putUser(params, function(error) {
-        assert.ok(error === undefined);
-        User.count({name: 'tests'}, function(err, count){
-          assert.ok(count === 1, count);
-        
-          dataProvider.putUser(params, function(error) {
-            assert.ok(error === undefined);
-            User.count({name: 'tests'}, function(err, count){
-              assert.ok(err == null);
-              assert.ok(count === 1, count);
-              done();
-            }); 
-          });
-        }); 
-      })
-    })
-
-    it('Should Can Find User in DataStore ', function(done){
-      var params = {
-            'name': 'userdetails',
+            'name': 'testdetails3',
+           // 'email': 'foo@bar.com',
             'oauthAccessToken': 'req.session.oauthAccessToken',
             'oauthAccessTokenSecret': 'req.session.oauthAccessTokenSecret',
             };
 
       dataProvider.putUser(params, function(error) {
+        assert.ok(error == null);
+        dataProvider.putUser(params, function(err){
+          console.log(err);
+          done();  
+        });
+      });
+    });
+
+    it('should allow us to store a user', function(done){
+     var params = {
+            'name': 'testdetails2',
+           // 'email': 'foo@bar.com',
+            'oauthAccessToken': 'req.session.oauthAccessToken',
+            'oauthAccessTokenSecret': 'req.session.oauthAccessTokenSecret',
+            };
+
+      dataProvider.putUser(params, function(error) {
+        assert.ok(error == null);
+        dataProvider.findUser(params.name, function(err, user){
+          console.log(err);
+          assert.ok(params['name'] === user['name']);
+          done();  
+        });
+      }); 
+    });
+
+    it('Should Can Find User in DataStore ', function(done){
+      var params = {
+            'name': 'userdetails',
+           // 'email': 'foo@bar.com',
+            'oauthAccessToken': 'req.session.oauthAccessToken',
+            'oauthAccessTokenSecret': 'req.session.oauthAccessTokenSecret',
+            };
+
+      dataProvider.putUser(params, function(error) {
+        assert.ok(error == null);
         dataProvider.findUser("userdetails", function(err, user){
+          console.log(err);
           assert.ok(params['name'] === user['name']);
           done();  
         });

@@ -1,13 +1,12 @@
 var mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost/powerball');
 
 var Schema = mongoose.Schema
   , ObjectId = Schema.ObjectId;
 
 //Schemas
 var User = new Schema({
-    name: String
-  , email: {type: String, unique: true}
+    name: {type: String, unique: true}
+ // , email: {type: String, unique: true}
   , website: String
   , qmo: String
   , key : String
@@ -27,13 +26,15 @@ var User = mongoose.model('user');
 mongoose.model('score', Score);
 var Score = mongoose.model('score');
 
-var DataProvider = function(){};
+var DataProvider = function(){
+  mongoose.connect('mongodb://localhost/powerball');
+};
 
 DataProvider.prototype.findUser= function(user, callback) {
   console.log("DataProvider.findUser has been called");
-  User.findOne({name:user}, function (err, user) {
+  User.findOne({name:user}, function (err, ruser) {
     if (!err) {
-      callback(null, user);
+      callback(null, ruser);
     } else {
       callback(err, null);
     }
@@ -42,8 +43,7 @@ DataProvider.prototype.findUser= function(user, callback) {
 
 DataProvider.prototype.putUser = function(params, callback) {
   console.log("DataProvider.putUser has been called");
-  this.findUser(params.name, function(err, user){
-    if (!user){
+    
       var post = new User({
         name: params.name
         , oauthAccessToken : params.oauthAccessToken
@@ -53,10 +53,6 @@ DataProvider.prototype.putUser = function(params, callback) {
       post.save(function (err) {
         callback(err);
       });
-    } else {
-      callback();
-    }
-  });
 };
 
 DataProvider.prototype.putScore = function(params, callback){
