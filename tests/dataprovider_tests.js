@@ -23,7 +23,6 @@ describe('DataProvider', function(){
       dataProvider.putUser(params, function(error) {
         assert.ok(error == null);
         dataProvider.putUser(params, function(err){
-          console.log(err);
           done();  
         });
       });
@@ -40,7 +39,6 @@ describe('DataProvider', function(){
       dataProvider.putUser(params, function(error) {
         assert.ok(error == null);
         dataProvider.findUser(params.name, function(err, user){
-          console.log(err);
           assert.ok(params['name'] === user['name']);
           done();  
         });
@@ -58,7 +56,6 @@ describe('DataProvider', function(){
       dataProvider.putUser(params, function(error) {
         assert.ok(error == null);
         dataProvider.findUser("userdetails", function(err, user){
-          console.log(err);
           assert.ok(params['name'] === user['name']);
           done();  
         });
