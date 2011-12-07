@@ -28,6 +28,7 @@ app.configure(function(){
     console.error(err.stack);
     res.render('500', {title: 'Powerball',
         user: req.session.powerballUser || false,
+        userId: req.session.userId || '',
         status: err.status || 500
       , error: err
     });
@@ -39,6 +40,7 @@ app.configure(function(){
     console.error("Url " + req.url + " was not found");
     res.render('404', { title: 'Powerball', 
         user: req.session.powerballUser || false, 
+        userId: req.session.userId || '',
         status: 404, 
         url: req.url,
     });
@@ -58,6 +60,7 @@ app.configure('production', function(){
 app.get('/', function(req, res){
   res.render('extend-index', {
     user: req.session.powerballUser || false,
+    userId: req.session.userId || '',
     title: 'Powerball'
   });
 });
@@ -91,6 +94,7 @@ app.get('/500', function(req, res, next){
 app.get('/healthcheck', function(req, res){
   res.render('healthcheck', {
     user: false,
+    userId: '',
     title: 'Powerball'
   });
 });

@@ -76,9 +76,11 @@ module.exports = function(app){
                 'oauthAccessTokenSecret': req.session.oauthAccessTokenSecret,
               };
 
-              dataProvider.putUser(params, function(error) {
+              dataProvider.putUser(params, function(error, userId) {
                 if (error){
                   console.error("Error when putting user. Error: " + error);
+                } else {
+                  req.session.userId = userId;
                 }
               });
             

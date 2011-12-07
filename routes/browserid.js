@@ -26,10 +26,17 @@ module.exports = function(app){
             "name": req.session.powerballUser,
           };
 
-          dataProvider.putUser(params, function(error) {
-            console.error(error);
+          dataProvider.putUser(params, function(error, userId) {
+            if (error) {
+              console.error(error);
+              res.json({result: "failure"});
+            } else {
+              req.session.userId = userId;
+              res.json({result:"success", email: req.session.powerballUser, userId: req.session.userId});
+            }
+            
           }); 
-          res.json({result:"success", email: req.session.powerballUser});
+          
           
         } else {
           //TODO(David) Lets send back something meaningful

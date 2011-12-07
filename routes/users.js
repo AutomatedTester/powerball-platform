@@ -9,7 +9,7 @@ module.exports = function(app){
         res.render('user', {
           user: req.session.powerballUser || false,
           userProf : user.name,
-          userID: req.session.powerballUser === user.name ? user._id : false,
+          userId: req.session.powerballUser === user.name ? user._id : false,
           score: 0,//TODO(David) Need to get this out of the data store!
           title: 'Powerball'
         });

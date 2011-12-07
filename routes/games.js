@@ -5,6 +5,7 @@ module.exports = function(app){
   app.get('/games', function(req, res){
     res.render('games', {
         user: req.session.powerballUser || false,
+        userId: req.session.userId || '',
         title: 'Powerball',
         games: Object.keys(games),
       });
@@ -15,12 +16,14 @@ module.exports = function(app){
     if (!(games.hasOwnProperty(gameName))){ 
       res.render('games', {
         user: req.session.powerballUser || false,
+        userId: req.session.userId || '',
         title: 'Powerball',
         games: games
       });
     } else {
       res.render('game', {
         user: req.session.powerballUser || false,
+        userId: req.session.userId || '',
         title: 'Powerball',
         game: gameName,
       });

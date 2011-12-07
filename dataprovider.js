@@ -74,7 +74,7 @@ DataProvider.prototype.putUser = function(params, callback) {
         , created_at: new Date()});
   
       post.save(function (err) {
-        callback(err);
+        callback(err, post._id);
       });
 };
 

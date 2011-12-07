@@ -2,6 +2,7 @@ p
   - if (user)
     p(id='signin',class='signin') Welcome 
       a(href='/user/#{user}') #{user}
+      input(type="hidden", value="#{userId}", id="userId")
   - else
     p(id='signin', class='signin') 
       a(id='twitter', href='/twitter') 
