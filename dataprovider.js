@@ -22,12 +22,22 @@ var Score = new Schema({
   , created_at : Date
 });
 
+var Games = new Schema({
+    name : String
+});
+
+
+// Models
 mongoose.model('user', User);
 var User = mongoose.model('user');
 
 mongoose.model('score', Score);
 var Score = mongoose.model('score');
 
+mongoose.model('games', Games);
+var 
+
+// DataProvider
 var DataProvider = function(){
   mongoose.connect('mongodb://localhost/powerball');
 };
@@ -90,3 +100,4 @@ DataProvider.prototype.disconnect = function(){
 exports.DataProvider = DataProvider;
 exports.User = User;
 exports.Score = Score;
+exports.Games = Games;
