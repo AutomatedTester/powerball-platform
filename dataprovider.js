@@ -23,7 +23,7 @@ var Score = new Schema({
 });
 
 var Games = new Schema({
-    name : String
+    name : { type: String, unique: true, default: "l10n" }
 });
 
 
@@ -35,7 +35,7 @@ mongoose.model('score', Score);
 var Score = mongoose.model('score');
 
 mongoose.model('games', Games);
-var 
+var Games = mongoose.model('games'); 
 
 // DataProvider
 var DataProvider = function(){
@@ -88,6 +88,18 @@ DataProvider.prototype.putScore = function(params, callback){
 
   score.save(function(err){
     callback(err);
+  });
+};
+
+DataProvider.prototype.getGame = function(game, callback){
+  console.log("DataProvider.getGame has been called");
+  Games.findOne({name: game}, function (err, gameName){
+    console.log(err);
+    if (!err) {
+      callback(null, gameName);
+    } else {
+      callback(err, null);
+    }
   });
 };
 

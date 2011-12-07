@@ -1,7 +1,8 @@
 var http = require('http')
   , assert = require('assert')
   , server = require('../app')
-  , User = require('../dataprovider').User;
+  , User = require('../dataprovider').User
+  , Games = require('../dataprovider').Games;
 
 describe('server', function(){
   
@@ -173,9 +174,7 @@ describe('server', function(){
         , created_at: new Date()});
   
     post.save(function (err) {
-      console.log(" in save callback error: " + err);
       var req = http.request({ path: '/score/foo/l10n', port: 3000, method: "POST" }, function(res) {
-        console.log("my status is " + res.statusCode);
         assert.ok(res.statusCode === 200);
         var buf = '';
         res.on('data', function(chunk){
@@ -197,4 +196,132 @@ describe('server', function(){
       req.end();
     }); 
   });
+
+
+  it('should pass and look the game up in the datastore', function(done){
+    var params = {
+              'name': 'tests123',
+              'oauthAccessToken': 'req.session.oauthAccessToken',
+              'oauthAccessTokenSecret': 'req.session.oauthAccessTokenSecret',
+              };
+    
+    var post = new User({
+        name: params.name
+        , oauthAccessToken : params.oauthAccessToken
+        , oauthAccessTokenSecret: params.oauthAccessTokenSecret
+        , created_at: new Date()});
+  
+    post.save(function (err) {
+      var games = new Games();
+      games.save(function(err2){
+        var path = '/score/' + post._id + '/l10n'
+        , req = http.request({ path: path , port: 3000, method: "POST" }, function(res) {
+            assert.ok(res.statusCode === 200);
+          
+          var buf = '';
+          res.on('data', function(chunk){
+            buf += chunk
+          });
+          res.on('end', function(){
+            var result = JSON.parse(buf);
+            assert.ok(result.result === "success");
+            done();
+          });
+        });
+  
+        req.on('error', function(e) {
+          console.log('problem with request: ' + e.message);
+        });
+          // write data to request body
+        req.write('data\n');
+        req.write('data\n');
+        req.end();
+      });
+    });
+  });
+
+  it('should fail when I look the game up in the datastore and its not there', function(done){
+    var params = {
+              'name': 'tests13',
+              'oauthAccessToken': 'req.session.oauthAccessToken',
+              'oauthAccessTokenSecret': 'req.session.oauthAccessTokenSecret',
+              };
+    
+    var post = new User({
+        name: params.name
+        , oauthAccessToken : params.oauthAccessToken
+        , oauthAccessTokenSecret: params.oauthAccessTokenSecret
+        , created_at: new Date()});
+  
+    post.save(function (err) {
+      var games = new Games();
+      games.save(function(err2){
+        var path = '/score/' + post._id + '/foobar'
+        , req = http.request({ path: path , port: 3000, method: "POST" }, function(res) {
+            assert.ok(res.statusCode === 200);
+          
+          var buf = '';
+          res.on('data', function(chunk){
+            buf += chunk
+          });
+          res.on('end', function(){
+            var result = JSON.parse(buf);
+            assert.ok(result.result === "failure");
+            done();
+          });
+        });
+  
+        req.on('error', function(e) {
+          console.log('problem with request: ' + e.message);
+        });
+          // write data to request body
+        req.write('data\n');
+        req.write('data\n');
+        req.end();
+      });
+    });
+  });
+
+  it('should insert a score into the datastore ', function(done){
+    var params = {
+              'name': 'tests173',
+              'oauthAccessToken': 'req.session.oauthAccessToken',
+              'oauthAccessTokenSecret': 'req.session.oauthAccessTokenSecret',
+              };
+    
+    var post = new User({
+        name: params.name
+        , oauthAccessToken : params.oauthAccessToken
+        , oauthAccessTokenSecret: params.oauthAccessTokenSecret
+        , created_at: new Date()});
+  
+    post.save(function (err) {
+      var games = new Games();
+      games.save(function(err2){
+        var path = '/score/' + post._id + '/l10n'
+        , req = http.request({ path: path , port: 3000, method: "POST" }, function(res) {
+            assert.ok(res.statusCode === 200);
+          
+          var buf = '';
+          res.on('data', function(chunk){
+            buf += chunk
+          });
+          res.on('end', function(){
+            var result = JSON.parse(buf);
+            assert.ok(result.result === "success");
+            assert.ok(result.message === "score locked away in the datastore");
+            done();
+          });
+        });
+  
+        req.on('error', function(e) {
+          console.log('problem with request: ' + e.message);
+        });
+          // write data to request body
+        req.write('{"points":"1"}');
+        req.end();
+      });
+    });
+  });
+
 });

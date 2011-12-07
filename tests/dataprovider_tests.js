@@ -1,6 +1,7 @@
 var DataProvider = require('../dataprovider').DataProvider
   , User = require('../dataprovider').User
   , Score = require('../dataprovider').Score
+  , Games = require('../dataProvider').Games
   , mongoose = require('mongoose')
   , dataProvider
   , assert = require('assert'); 
@@ -102,6 +103,20 @@ describe('DataProvider', function(){
         });
       });
     }); 
+  });
+
+  describe('games', function(){
+    it('should return the default', function(done){
+      var game = new Games();
+      game.save(function(err){
+        dataProvider.getGame('l10n', function(err, game){
+          assert.ok(err === null);
+          console.log(JSON.stringify(game));
+          assert.ok(game.name === 'l10n');
+          done();
+        });
+      });
+    });
   });
 
   afterEach(function(){
