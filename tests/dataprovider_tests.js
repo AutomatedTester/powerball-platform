@@ -1,7 +1,7 @@
 var DataProvider = require('../dataprovider').DataProvider
   , User = require('../dataprovider').User
   , Score = require('../dataprovider').Score
-  , Games = require('../dataProvider').Games
+  , Games = require('../dataprovider').Games
   , mongoose = require('mongoose')
   , dataProvider
   , assert = require('assert'); 
