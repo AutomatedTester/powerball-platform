@@ -31,6 +31,7 @@ script
       
     $('#yes').click(function() {
       currentShow++;
+      score();
       if (currentShow < images.length){
         $('#eng').attr('src',"/images/eng-"+images[currentShow]+".jpg" );
         $('#ger').attr('src',"/images/ger-"+images[currentShow]+".jpg");
@@ -41,6 +42,7 @@ script
       
     $('#no').click(function() {
       currentShow++;
+      score();
       if (currentShow < images.length){
         $('#eng').attr('src',"/images/eng-"+images[currentShow]+".jpg" );
         $('#ger').attr('src',"/images/ger-"+images[currentShow]+".jpg");
@@ -56,6 +58,18 @@ script
             $('#dialog').dialog('close');
           }
       });  
-    }); 
+    });
+    var score = function(){
+      $.post('/score/'+$('#userId').attr('value')+'/l10n', { score: 1 },
+        function(data){
+          if (data.result === 'success'){
+            //TODO(David) sort this for issue #22
+            console.log("success");
+          } else {
+            //TODO(David) do something nice
+            console.log("failure");
+          }
+      });
+    };
   });
   
