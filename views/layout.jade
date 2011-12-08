@@ -33,8 +33,9 @@ html
                 if (parsedData.result === 'success'){
                   $('#twitter').hide();
                   $('#browserid').hide();
-                  $('#signin').html("Welcome <a href='/user/" + parsedData.email + "'>" + parsedData.email +
+                  $('#signin').html("<a href='/user/" + parsedData.email + "'>" + parsedData.email +
                   "</a><input type='hidden' value=" + parsedData.userId + " id='userId'/>");
+                  $('#signin').before('<div id="score" class="score">0</div>');
                 }
               });
 
