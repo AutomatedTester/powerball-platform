@@ -22,13 +22,17 @@ a.mozilla {
   overflow: hidden;
   margin-right: 20px;
 }
-
+.user_data {
+    overflow: hidden;
+    zoom: 1; /* can delete this is IE6/7 isn't an issue */
+    position: absolute;
+    right: 170px;
+    top: 2px;
+}
 .signin {
-  position:absolute; 
-  top:0px;
-  right:180px;
   display:block;
   padding:10px;
+  float: left;
 }
 
 footer {
@@ -70,9 +74,7 @@ ul#nav li a {
   padding: 10px;
   background: #99CCFF;
   width: 10px;
-  position:absolute; 
-  top:0px;
-  right:350px;
+  float: left;
 }
 
 @media all and (max-width: 600px){
