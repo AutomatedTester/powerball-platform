@@ -26,7 +26,9 @@ a.mozilla {
 .signin {
   position:absolute; 
   top:0px;
-  right:200px;
+  right:180px;
+  display:block;
+  padding:10px;
 }
 
 footer {
@@ -52,7 +54,7 @@ ul#nav li a {
  display:block;
  text-align:center;
  outline: 0pt none;
- colour: rgb(94,94,94);
+ color: rgb(94,94,94);
  padding:10px;
  width:106px;
  border: 1px solid rgba(176, 193, 210, 0.3);
@@ -60,6 +62,17 @@ ul#nav li a {
  box-shadow: 0pt 0pt 0pt 1px rgba(255, 255, 255, 0.5) inset;
  -moz-transition: all 0.25s ease-out 0s;
  -moz-user-select: none;
+}
+
+.score {
+  color: white;
+  display:block;
+  padding: 10px;
+  background: #99CCFF;
+  width: 10px;
+  position:absolute; 
+  top:0px;
+  right:350px;
 }
 
 @media all and (max-width: 600px){
