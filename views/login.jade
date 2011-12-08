@@ -1,10 +1,10 @@
 p 
   - if (user)
-    p(id='signin',class='signin') Welcome 
+    div(id='signin',class='signin') 
       a(href='/user/#{user}') #{user}
       input(type="hidden", value="#{userId}", id="userId")
   - else
-    p(id='signin', class='signin') 
+    div(id='signin', class='signin') 
       a(id='twitter', href='/twitter') 
         img(src='/images/sign-in-with-twitter-l.png', alt='Sign in with twitter')
       img(id='browserid', src='/images/sign_in_green.png', alt='Sign in with BrowserID')
