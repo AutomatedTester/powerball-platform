@@ -69,10 +69,10 @@ ul#nav li a {
 }
 
 .score {
-  color:#148CB5;
+  color:#e1effc;
   display:block;
   padding: 7px;
-  background: #e1effc;
+  background:#148CB5;
   width: 10px;
   float: left;
   border: 1px solid rgba(176, 193, 210, 0.3);
