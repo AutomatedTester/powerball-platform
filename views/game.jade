@@ -60,11 +60,12 @@ script
       });  
     });
     var score = function(){
-      $.post('/score/'+$('#userId').attr('value')+'/l10n', { score: 1 },
+      $.post('/score/'+$('#userId').attr('value')+'/l10n', { points: 1 },
         function(data){
           if (data.result === 'success'){
-            //TODO(David) sort this for issue #22
-            console.log("success");
+            var score = $('#score').text();
+            score = (score * 1) + 1;
+            $('#score').text(score);
           } else {
             //TODO(David) do something nice
             console.log("failure");

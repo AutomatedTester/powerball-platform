@@ -41,6 +41,7 @@ app.configure(function(){
     res.render('404', { title: 'Powerball', 
         user: req.session.powerballUser || false, 
         userId: req.session.userId || '',
+        score: req.session.score || 0,
         status: 404, 
         url: req.url,
     });
@@ -61,6 +62,7 @@ app.get('/', function(req, res){
   res.render('extend-index', {
     user: req.session.powerballUser || false,
     userId: req.session.userId || '',
+    score: req.session.score || 0,
     title: 'Powerball'
   });
 });
@@ -95,6 +97,7 @@ app.get('/healthcheck', function(req, res){
   res.render('healthcheck', {
     user: false,
     userId: '',
+    score: 0,    
     title: 'Powerball'
   });
 });

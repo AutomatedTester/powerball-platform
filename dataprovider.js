@@ -91,6 +91,12 @@ DataProvider.prototype.putScore = function(params, callback){
   });
 };
 
+DataProvider.prototype.getScore = function(name, callback){
+  Score.where('user', name).
+        select('points').
+        run(callback);
+};
+
 DataProvider.prototype.getGame = function(game, callback){
   console.log("DataProvider.getGame has been called");
   Games.findOne({name: game}, function (err, gameName){

@@ -80,7 +80,15 @@ module.exports = function(app){
                 if (error){
                   console.error("Error when putting user. Error: " + error);
                 } else {
-                  req.session.userId = userId;
+                  dataProvider.getScore(params.name, function(errors, docs){ 
+                    var score = 0; 
+                    for (var i=0; i < docs.length; i++){ 
+                      score += docs[i].points;
+                    }
+
+                    req.session.score = score;
+                    req.session.userId = userId;
+                  });
                 }
               });
             

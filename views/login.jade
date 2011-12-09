@@ -1,7 +1,7 @@
 p 
   - if (user)
     div(class='user_data') 
-      div(id='score', class='score') 0
+      div(id='score', class='score') #{score} 
       div(id='signin',class='signin')
         a(href='/user/#{user}') #{user}
         input(type="hidden", value="#{userId}", id="userId")

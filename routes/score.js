@@ -23,8 +23,9 @@ module.exports = function(app){
               } else {
                 if (games){
                   var data = req.body; 
-                  dataProvider.putScore({user: ruser.name, game: games.name, points:data.points} , function(err){
+                  dataProvider.putScore({user: ruser.name, game: games.name, points: data.points} , function(err){
                     if (!err) {
+                      req.session.score += data.points;
                       FAILURE.result = 'success';
                       FAILURE.message = 'score locked away in the datastore';
                       res.json(FAILURE);

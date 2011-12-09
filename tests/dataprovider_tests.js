@@ -103,6 +103,22 @@ describe('DataProvider', function(){
         });
       });
     }); 
+    
+    it('should return docs of score so can reduce', function(done){
+      var params = {
+        'user':'testUser2',
+        'game':'l10n',
+        'points':1
+      }
+      dataProvider.putScore(params, function(error){
+        assert.ok(error == null);
+        dataProvider.getScore(params.user, function(err, docs){
+          assert.ok(docs.length >= 1);
+          assert.ok(docs[0].points == 1);
+          done();
+        });
+      });
+    });
   });
 
   describe('games', function(){

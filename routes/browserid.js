@@ -31,13 +31,24 @@ module.exports = function(app){
               console.error(error);
               res.json({result: "failure"});
             } else {
-              req.session.userId = userId;
-              res.json({result:"success", email: req.session.powerballUser, userId: req.session.userId});
+              dataProvider.getScore(params.name, function(errors, docs){ 
+                console.log(docs);
+                var score = 0; 
+                for (var i=0; i < docs.length; i++){ 
+                  score += docs[i].points;
+                }
+
+                req.session.score = score;                 
+                req.session.userId = userId;
+                res.json({
+                  result:"success", 
+                  email: req.session.powerballUser, 
+                  userId: req.session.userId,
+                  score: req.session.score,
+                });
+              });
             }
-            
           }); 
-          
-          
         } else {
           //TODO(David) Lets send back something meaningful
         }

@@ -7,6 +7,7 @@ module.exports = function(app){
         user: req.session.powerballUser || false,
         userId: req.session.userId || '',
         title: 'Powerball',
+        score: req.session.score || 0,
         games: Object.keys(games),
       });
   });
@@ -18,6 +19,7 @@ module.exports = function(app){
         user: req.session.powerballUser || false,
         userId: req.session.userId || '',
         title: 'Powerball',
+        score: req.session.score || 0,
         games: games
       });
     } else {
@@ -25,6 +27,7 @@ module.exports = function(app){
         user: req.session.powerballUser || false,
         userId: req.session.userId || '',
         title: 'Powerball',
+        score: req.session.score || 0,
         game: gameName,
       });
     }
