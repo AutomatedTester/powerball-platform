@@ -2,7 +2,7 @@
 .mb-wrapper {
 	width: 900px; /* default, this is overridden by script settings */
 	min-height: 200px;
-	border: 5px solid #ccc;
+	border: 5px solid rgba(176, 193, 210, 0.3);
 	margin: 0 auto;
 	position: relative;
 	left: 0;
