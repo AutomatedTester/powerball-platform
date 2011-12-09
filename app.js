@@ -59,7 +59,7 @@ app.configure('production', function(){
 // Routes
 
 app.get('/', function(req, res){
-  res.render('extend-index', {
+  res.render('index', {
     user: req.session.powerballUser || false,
     userId: req.session.userId || '',
     score: req.session.score || 0,

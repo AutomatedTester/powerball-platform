@@ -3,6 +3,7 @@ html
   head
     title= title
     link(rel='stylesheet', href='/stylesheets/style.css')
+    link(rel='stylesheet', href='/stylesheets/movingboxes.css')
   body
     a(class='mozilla', href='http://www.mozilla.org') visit
         span mozilla
@@ -23,8 +24,16 @@ html
         fork on  
         a(href='https://github.com/automatedtester/powerball-platform') Github
     script(src='https://browserid.org/include.js', type='text/javascript')
+    script(type="text/javascript", src='/javascripts/jquery.movingboxes.min.js')
     script
       $(document).ready(function(){
+        $('#slider').movingBoxes({
+          startPanel : 1, // start with this panel
+          width : 800, // overall width of movingBoxes (not including navigation arrows)
+          wrap : true, // if true, the panel will "wrap" (it really rewinds/fast forwards) at the ends
+          buildNav : true, // if true, navigation links will be added
+          navFormatter : function(){ return "&#9679;"; } // function which returns the navigation text for each panel
+        });
         $('#browserid').click(function(){
           navigator.id.getVerifiedEmail(function(assertion) {
             if (assertion) {
