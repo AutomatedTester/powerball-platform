@@ -100,7 +100,6 @@ DataProvider.prototype.getScore = function(name, callback){
 DataProvider.prototype.getGame = function(game, callback){
   console.log("DataProvider.getGame has been called");
   Games.findOne({name: game}, function (err, gameName){
-    console.log(err);
     if (!err) {
       callback(null, gameName);
     } else {
