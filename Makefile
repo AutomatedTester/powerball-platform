@@ -6,3 +6,9 @@ deploy:
 
 push:
 	git push origin master
+
+run:
+	nodemon app.js
+
+setup:
+	npm install
