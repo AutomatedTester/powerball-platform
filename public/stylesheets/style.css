@@ -85,4 +85,8 @@ ul#nav li a {
     padding: 2px;
     right: 150px;
   }
+
+  .movingBoxes {
+    display:none;
+  }
 }
