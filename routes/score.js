@@ -71,11 +71,13 @@ module.exports = function(app){
                     }
                   });
                 } else {
+                  console.error("Error putting score: could not find game " + req.params.games);
                   res.json(FAILURE);
                 }
               }
             });
           } else {
+            console.err("Error putting score. No game was passed in");
             res.json(FAILURE);
           }
         }
