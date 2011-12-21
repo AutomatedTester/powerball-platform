@@ -28,7 +28,7 @@ module.exports = function(app){
 
           dataProvider.putUser(params, function(error, userId) {
             if (error) {
-              console.error(error);
+              console.error(error.err);
               res.json({result: "failure"});
             } else {
               dataProvider.getScore(params.name, function(errors, docs){ 
