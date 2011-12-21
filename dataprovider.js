@@ -47,7 +47,7 @@ var User = new Schema({
   , created_at : Date
 });
 
-User.index({ first: 1, last: -1 }, { unique: true, dropDups: true });
+User.index({ unique: true, dropDups: true });
 
 var Score = new Schema({
     user : String
