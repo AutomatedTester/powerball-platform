@@ -80,6 +80,15 @@ ul#nav li a {
 }
 
 @media all and (max-width: 600px){
+  a.mozilla {
+    right:5px;
+    margin-right: 5px;
+  }
+
+  .user_data {
+    right:130px;
+  }
+
   .signin{
     margin:0px;
     padding: 2px;
