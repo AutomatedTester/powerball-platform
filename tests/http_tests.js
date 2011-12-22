@@ -323,5 +323,29 @@ describe('server', function(){
       });
     });
   });
+  
+  it('should load the leaderboard page', function(done){
+    http.get({ path: '/leaderboards', port: 3000 }, function(res){
+      assert.ok(res.statusCode === 200);
+      var buf = '';
+      res.on('data', function(chunk){buf += chunk});
+      res.on('end', function(){
+        assert.ok(buf.indexOf("The Leaderboard of who has been scoring the most.") >= 0);
+        done();
+      });
+    });
+  });
 
+  it('should load the main leaderboard when the game doesnt exist', function(done){
+    http.get({ path: '/leaderboards/omgthiswontexist', port: 3000 }, function(res){
+      assert.ok(res.statusCode === 301);
+      var buf = '';
+      res.on('data', function(chunk){buf += chunk});
+      res.on('end', function(){
+        console.log(buf);
+        assert.ok(buf.indexOf("Redirecting to ") >= 0);
+        done();
+      });
+    });
+  });
 });

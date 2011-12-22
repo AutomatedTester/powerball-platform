@@ -108,6 +108,7 @@ require('./routes/games')(app);
 require('./routes/twitter')(app);
 require('./routes/browserid')(app);
 require('./routes/score')(app);
+require('./routes/leaderboards')(app);
 
 app.get('/404', function(req, res, next){
   next();
