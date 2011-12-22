@@ -36,7 +36,7 @@ a.mozilla {
 }
 
 footer {
-  position:absolute;
+  position:relative;
   left:40%;
   bottom: 10px;
   font-size:8px;
