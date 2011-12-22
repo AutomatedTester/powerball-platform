@@ -88,12 +88,12 @@ module.exports = function(app){
 
                     req.session.score = score;
                     req.session.userId = userId;
+                    req.session.powerballUser = data1.screen_name, 
+                    res.redirect('back');
+                  
                   });
                 }
               });
-            
-              req.session.powerballUser = data1.screen_name;
-              res.redirect('back');
             }
           });
         }
