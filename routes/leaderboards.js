@@ -39,12 +39,15 @@ module.exports = function(app){
   var dataProvider = new DataProvider();
 
   app.get('/leaderboards', function(req, res){
-    res.render('leaderboards', {
-      user: req.session.powerballUser || false,
-      userId: req.session.userId || '',
-      score: req.session.score || 0,
-      title: 'Powerball'
-    });
+    dataProvider.getAllScores(function(users){ 
+            res.render('leaderboards', {
+              leaderboard: users,
+              user: req.session.powerballUser || false,
+              userId: req.session.userId || '',
+              score: req.session.score || 0,
+              title: 'Powerball'
+            });
+      });
   });
 
   app.get('/leaderboards/:game', function(req, res){
@@ -53,7 +56,7 @@ module.exports = function(app){
         res.redirect('/leaderboards');
       } else {
         if (game) {
-
+          ;
         } else {
           res.redirect('/leaderboards', 301);
         }

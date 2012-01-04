@@ -325,13 +325,50 @@ describe('server', function(){
   });
   
   it('should load the leaderboard page', function(done){
-    http.get({ path: '/leaderboards', port: 3000 }, function(res){
-      assert.ok(res.statusCode === 200);
-      var buf = '';
-      res.on('data', function(chunk){buf += chunk});
-      res.on('end', function(){
-        assert.ok(buf.indexOf("The Leaderboard of who has been scoring the most.") >= 0);
-        done();
+    var params = {
+              'name': 'testingLeadboard',
+              'oauthAccessToken': 'req.session.oauthAccessToken',
+              'oauthAccessTokenSecret': 'req.session.oauthAccessTokenSecret',
+              };
+    
+    var post = new User({
+        name: params.name
+        , oauthAccessToken : params.oauthAccessToken
+        , oauthAccessTokenSecret: params.oauthAccessTokenSecret
+        , created_at: new Date()});
+  
+    post.save(function (err) {
+      var games = new Games();
+      games.save(function(err2){
+        var path = '/score/' + post._id + '/l10n'
+        , req = http.request({ path: path , port: 3000, method: "POST" }, function(res) {
+            assert.ok(res.statusCode === 200);
+          
+          var buf = '';
+          res.on('data', function(chunk){
+            buf += chunk
+          });
+          res.on('end', function(){
+            var result = JSON.parse(buf);
+            assert.ok(result.result === "success");
+            assert.ok(result.message === "score locked away in the datastore");
+            http.get({ path: '/leaderboards', port: 3000 }, function(res){
+              assert.ok(res.statusCode === 200);
+              var buf = '';
+                res.on('data', function(chunk){buf += chunk});
+                res.on('end', function(){
+                  assert.ok(buf.indexOf("The Leaderboard of who has been scoring the most.") >= 0);
+                  done();
+                });
+              });
+          });
+        });
+        req.on('error', function(e) {
+          console.log('problem with request: ' + e.message);
+        });
+          // write data to request body
+        req.write('{"points":"1"}');
+        req.end();
       });
     });
   });
@@ -342,7 +379,6 @@ describe('server', function(){
       var buf = '';
       res.on('data', function(chunk){buf += chunk});
       res.on('end', function(){
-        console.log(buf);
         assert.ok(buf.indexOf("Redirecting to ") >= 0);
         done();
       });

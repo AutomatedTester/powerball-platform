@@ -1,4 +1,10 @@
 h2 Leaderboards
 p The Leaderboard of who has been scoring the most. Below is a list of the top 25 people who have been 
-  playing and their score for the last X many days
-  
+  | playing and their score for the last X many days
+table
+  - each points, user in leaderboard
+    tr
+      td
+        a(href='/user/#{user}') #{user}
+      td
+        #{points}
