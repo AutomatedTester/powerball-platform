@@ -138,7 +138,7 @@ DataProvider.prototype.getAllScores = function(callback){
             var users = {};
             if (error) throw error;
             for(var i=0; i < docs.length; i++){
-              users[docs[i].user] = users[docs[i].user] + docs[i].points || 0;
+              users[docs[i].user] = users[docs[i].user] + docs[i].points || 1;
             }
             callback(users);
           });
