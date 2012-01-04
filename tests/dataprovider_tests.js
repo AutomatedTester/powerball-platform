@@ -128,9 +128,10 @@ describe('DataProvider', function(){
       }
       dataProvider.putScore(params, function(error){
         assert.ok(error == null);
-        dataProvider.getAllScores(function(err, docs){
-          assert.ok(docs.length >= 1);
-          assert.ok(docs[0].points >= 1);
+        dataProvider.getAllScores(function(docs){
+          assert.ok(Object.keys(docs).length >= 1);
+          console.log(JSON.stringify(docs));
+          assert.ok(docs[params.user] >= 1);
           done();
         });
       });

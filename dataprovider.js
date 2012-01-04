@@ -133,8 +133,15 @@ DataProvider.prototype.getScore = function(name, callback){
 
 DataProvider.prototype.getAllScores = function(callback){
   Score.where('user').
-        select('points').
-        run(callback);
+        select('user', 'points').
+        run(function(error, docs){
+            var users = {};
+            if (error) throw error;
+            for(var i=0; i < docs.length; i++){
+              users[docs[i].user] = users[docs[i].user] + docs[i].points || 0;
+            }
+            callback(users);
+          });
 };
 
 DataProvider.prototype.getGame = function(game, callback){
