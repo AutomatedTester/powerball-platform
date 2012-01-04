@@ -1,9 +1,13 @@
 body {
   padding: 50px;
-  margin: 0px;
+  margin: 0pt auto;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
   border-top: 2px solid #676767;
   background: #fff url(/images/background.png) 0 0 repeat-x;
+}
+#container {
+  margin: 0pt auto;
+  width:850px;
 }
 
 a {
