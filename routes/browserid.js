@@ -40,6 +40,8 @@ module.exports = function(app){
 
                 req.session.score = score;                 
                 req.session.userId = userId;
+                req.session.loginType = 'browserid';
+
                 res.json({
                   result:"success", 
                   email: req.session.powerballUser, 

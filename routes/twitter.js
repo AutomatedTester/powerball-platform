@@ -88,7 +88,8 @@ module.exports = function(app){
 
                     req.session.score = score;
                     req.session.userId = userId;
-                    req.session.powerballUser = data1.screen_name, 
+                    req.session.powerballUser = data1.screen_name; 
+                    req.session.loginType = 'twitter';
                     res.redirect('back');
                   
                   });

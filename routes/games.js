@@ -62,6 +62,7 @@ module.exports = function(app){
         userId: req.session.userId || '',
         title: 'Powerball',
         score: req.session.score || 0,
+        loginType: req.session.loginType,
         game: gameName,
       });
     }

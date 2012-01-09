@@ -1,5 +1,5 @@
 link(type="text/css", href="/css/ui-lightness/jquery-ui-1.8.16.custom.css", rel="Stylesheet")
-
+input(id='loginType', type='hidden', value='#{loginType}')
 h1= title
 p Lets play #{game}!
 p Are the following the same?
@@ -36,7 +36,11 @@ script
         $('#eng').attr('src',"/images/eng-"+images[currentShow]+".jpg" );
         $('#ger').attr('src',"/images/ger-"+images[currentShow]+".jpg");
       } else {
-        $('#dialog').dialog('open');
+        $('#no').hide();
+        $('#yes').hide();
+        if ($('#loginType').val() === 'twitter'){
+          $('#dialog').dialog('open');
+        }
       }
     });
       
@@ -47,7 +51,11 @@ script
         $('#eng').attr('src',"/images/eng-"+images[currentShow]+".jpg" );
         $('#ger').attr('src',"/images/ger-"+images[currentShow]+".jpg");
       } else {
-        $('#dialog').dialog('open');
+        $('#no').hide();
+        $('#yes').hide();
+        if ($('#loginType').val() === 'twitter'){
+          $('#dialog').dialog('open');
+        }
       }
     });
     $('#tweet').click(function(){
