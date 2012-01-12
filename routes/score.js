@@ -48,13 +48,13 @@ module.exports = function(app){
     if (req.params.uniqueId){
       dataProvider.findUserById(req.params.uniqueId, function(err, ruser) {
         if (err) {
-          console.log("Error putting score " + err);
+          console.error("Error putting score " + err);
           res.json(FAILURE);
         } else {
           if (req.params.games){
             dataProvider.getGame(req.params.games, function(err, games){
               if (err){
-                console.log("Error putting score " + err);
+                console.error("Error putting score " + err);
                 res.json(FAILURE);
               } else {
                 if (games){
@@ -66,7 +66,7 @@ module.exports = function(app){
                       FAILURE.message = 'score locked away in the datastore';
                       res.json(FAILURE);
                     } else {
-                      console.log("Error putting score" + err);
+                      console.error("Error putting score" + err);
                       res.json(FAILURE);
                     }
                   });
@@ -77,7 +77,7 @@ module.exports = function(app){
               }
             });
           } else {
-            console.err("Error putting score. No game was passed in");
+            console.error("Error putting score. No game was passed in");
             res.json(FAILURE);
           }
         }
