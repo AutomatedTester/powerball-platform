@@ -182,6 +182,7 @@ describe('server', function(){
         });
         res.on('end', function(){
           var result = JSON.parse(buf);
+          console.log(result);
           assert.ok(result.result === "failure");
           done();
         });
@@ -197,6 +198,45 @@ describe('server', function(){
     }); 
   });
 
+  it('should error if it cant find the id in datastore when passed a value similar to an id', function(done){
+    var params = {
+              'name': 'tests2',
+              'oauthAccessToken': 'req.session.oauthAccessToken',
+              'oauthAccessTokenSecret': 'req.session.oauthAccessTokenSecret',
+              };
+    var mongoose = require('mongoose');
+    mongoose.connect('mongodb://localhost/powerball');
+
+    var post = new User({
+        name: params.name
+        , oauthAccessToken : params.oauthAccessToken
+        , oauthAccessTokenSecret: params.oauthAccessTokenSecret
+        , created_at: new Date()});
+  
+    post.save(function (err) {
+      var req = http.request({ path: '/score/4ef1ea4feb3ba9ab99000001/l10n', port: 3000, method: "POST" }, function(res) {
+        assert.ok(res.statusCode === 200);
+        var buf = '';
+        res.on('data', function(chunk){
+          buf += chunk
+        });
+        res.on('end', function(){
+          var result = JSON.parse(buf);
+          console.log(result);
+          assert.ok(result.result === "failure");
+          done();
+        });
+      });
+
+      req.on('error', function(e) {
+        console.log('problem with request: ' + e.message);
+      });
+      // write data to request body
+      req.write('data\n');
+      req.write('data\n');
+      req.end();
+    }); 
+  });
 
   it('should pass and look the game up in the datastore', function(done){
     var params = {

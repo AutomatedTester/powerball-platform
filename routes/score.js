@@ -51,34 +51,38 @@ module.exports = function(app){
           console.error("Error putting score " + err);
           res.json(FAILURE);
         } else {
-          if (req.params.games){
-            dataProvider.getGame(req.params.games, function(err, games){
-              if (err){
-                console.error("Error putting score " + err);
-                res.json(FAILURE);
-              } else {
-                if (games){
-                  var data = req.body; 
-                  dataProvider.putScore({user: ruser.name, game: games.name, points: data.points} , function(err){
-                    if (!err) {
-                      req.session.score += data.points;
-                      FAILURE.result = 'success';
-                      FAILURE.message = 'score locked away in the datastore';
-                      res.json(FAILURE);
-                    } else {
-                      console.error("Error putting score" + err);
-                      res.json(FAILURE);
-                    }
-                  });
-                } else {
-                  console.error("Error putting score: could not find game " + req.params.games);
-                  res.json(FAILURE);
-                }
-              }
-            });
-          } else {
-            console.error("Error putting score. No game was passed in");
+          if (ruser === null){
             res.json(FAILURE);
+          } else {
+            if (req.params.games){
+              dataProvider.getGame(req.params.games, function(err, games){
+                if (err){
+                  console.error("Error putting score " + err);
+                  res.json(FAILURE);
+              } else {
+                  if (games){
+                    var data = req.body; 
+                    dataProvider.putScore({user: ruser.name, game: games.name, points: data.points} , function(err){
+                      if (!err) {
+                        req.session.score += data.points;
+                        FAILURE.result = 'success';
+                        FAILURE.message = 'score locked away in the datastore';
+                        res.json(FAILURE);
+                      } else {
+                        console.error("Error putting score" + err);
+                        res.json(FAILURE);
+                      }
+                    });
+                  } else {
+                    console.error("Error putting score: could not find game " + req.params.games);
+                    res.json(FAILURE);
+                  }
+                }
+              });
+            } else {
+              console.error("Error putting score. No game was passed in");
+              res.json(FAILURE);
+            }
           }
         }
       });
