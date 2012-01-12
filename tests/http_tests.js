@@ -222,7 +222,6 @@ describe('server', function(){
         });
         res.on('end', function(){
           var result = JSON.parse(buf);
-          console.log(result);
           assert.ok(result.result === "failure");
           done();
         });
