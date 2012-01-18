@@ -59,8 +59,8 @@ app.configure(function(){
     // we possibly recovered from the error, simply next().
     console.error(err.stack);
     res.render('500', {title: 'Powerball',
-        user: req.session.powerballUser || false,
-        userId: req.session.userId || '',
+        user: false,
+        userId: '',
         status: err.status || 500
       , error: err
     });
