@@ -5,6 +5,8 @@ p
       div(id='signin',class='signin')
         a(href='/user/#{user}') #{user}
         input(type="hidden", value="#{userId}", id="userId")
+      div(id='logout')
+        a(href='/logout') Logout
   - else
     div(class='user_data')
       div(id='signin', class='signin') 

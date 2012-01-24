@@ -50,6 +50,7 @@ html
                   $('#signin').html("<a href='/user/" + parsedData.email + "'>" + parsedData.email +
                   "</a><input type='hidden' value=" + parsedData.userId + " id='userId'/>");
                   $('#signin').before('<div id="score" class="score">' + parsedData.score + '</div>');
+                  $('#signin').after('<div id="logout"><a href="/logout">Logout</a></div>');
                 }
               });
 

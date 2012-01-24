@@ -133,4 +133,13 @@ app.get('/healthcheck', function(req, res){
   });
 });
 
+app.get('/logout', function(req, res){
+  req.session.destroy(function(err){
+    if (err){
+      console.error(err);
+    }
+    res.redirect('/');
+  });
+});
+
 app.listen(3000);
