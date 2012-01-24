@@ -40,13 +40,15 @@ html
           navFormatter : function(){ return "&#9679;"; } // function which returns the navigation text for each panel
         });
         $('#browserid').click(function(){
+          $('#twitter').hide();
+          $('#browserid').hide();
+          $('#signin').html('<div>Signing in...</div>');
           navigator.id.getVerifiedEmail(function(assertion) {
             if (assertion) {
               $.post('/browserid', {assertion: assertion}, function(data){
                 var parsedData = data;
                 if (parsedData.result === 'success'){
-                  $('#twitter').hide();
-                  $('#browserid').hide();
+                  
                   $('#signin').html("<a href='/user/" + parsedData.email + "'>" + parsedData.email +
                   "</a><input type='hidden' value=" + parsedData.userId + " id='userId'/>");
                   $('#signin').before('<div id="score" class="score">' + parsedData.score + '</div>');
@@ -55,6 +57,8 @@ html
               });
 
             } else {
+              $('#twitter').show();
+              $('#browserid').show();
               //TODO(David) Have a clean error message to say we can do the comms
             }
           });
