@@ -10,7 +10,7 @@ help:
 
 
 test:
-	mocha tests/* --globals name --reporter spec
+	mocha tests/* --globals name --reporter spec -t 20000
 
 deploy:
 	git push micro master

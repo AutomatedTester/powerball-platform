@@ -1,3 +1,9 @@
+before_script:
+  - curl -k -L -O http://selenium.googlecode.com/files/selenium-server-standalone-2.17.0.jar
+  - java -jar selenium-server-standalone-2.17.0.jar
+  - sh -e /etc/init.d/xvfb start
+  - export DISPLAY=:99
+
 language: node_js
 node_js:
   - 0.6

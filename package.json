@@ -11,6 +11,6 @@
     , "oauth": "0.9.5"
     }
   , "scripts": {
-      "test": "mocha tests/* -t 540000 --globals name --reporter spec"
+      "test": "mocha tests/* -t 540000 --globals name --reporter spec -t 20000"
     }
 }
