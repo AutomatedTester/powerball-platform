@@ -1,0 +1,41 @@
+#coolMenu,
+#coolMenu ul {
+    list-style: none;
+    padding: 0px;
+    margin: 0px;
+    height: 70px;
+}
+#coolMenu li a {
+    display: block;
+    height: 1.5em;
+    text-decoration: none;
+}
+#coolMenu ul li a {
+}
+#coolMenu li:hover ul {
+    display: block;
+}
+/* Main menu
+------------------------------------------*/
+#coolMenu {
+    font-family: Verdana;
+    font-size: 12px;
+    background: #2f8be8;
+}
+#coolMenu > li > a {
+    color: #fff;
+    font-weight: bold;
+}
+#coolMenu > li:hover > a {
+    background: #f09d28;
+    color: #000;
+}
+ 
+/* Submenu
+------------------------------------------*/
+#coolMenu ul li a {
+    color: #000;
+}
+#coolMenu ul li:hover a {
+    background: #ffc97c;
+}
