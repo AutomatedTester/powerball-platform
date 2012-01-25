@@ -18,4 +18,15 @@ module.exports = function(app){
       }
     });
   });
+
+  app.get('/user/id/:userId', function(req, res, next){
+    dataProvider.findUserById(req.params.userId, function(err, user){
+      if (err) console.error(err);
+      if (user){
+        res.redirect("/user/" + user.name, 301);
+      } else {
+        next();
+      }
+    });
+  });
 };

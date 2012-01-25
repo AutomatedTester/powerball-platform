@@ -140,6 +140,64 @@ describe('server', function(){
     }); 
   });
 
+  it('should find a user if we access /user/id/:userID', function(done){
+    var params = {
+              'name': 'testsSearchById',
+              'oauthAccessToken': 'req.session.oauthAccessToken',
+              'oauthAccessTokenSecret': 'req.session.oauthAccessTokenSecret',
+              };
+    var mongoose = require('mongoose');
+    mongoose.connect('mongodb://localhost/powerball');
+
+    var post = new User({
+        name: params.name
+        , oauthAccessToken : params.oauthAccessToken
+        , oauthAccessTokenSecret: params.oauthAccessTokenSecret
+        , created_at: new Date()});
+    post.save(function (err) {
+      var req = http.get({ path: '/user/id/' + post._id, port: 3000 }, function(res) {
+        assert.ok(res.statusCode === 301, res.statusCode);
+        var buf = '';
+        res.on('data', function(chunk){
+          buf += chunk
+        });
+        res.on('end', function(){
+          assert.ok(buf.indexOf("testsUserWillExist"));
+          done();
+        });
+      });
+    }); 
+  });
+
+  it('should find not user if we access /user/id/:userID and the user ID does exist', function(done){
+    var params = {
+              'name': 'testsSearchById',
+              'oauthAccessToken': 'req.session.oauthAccessToken',
+              'oauthAccessTokenSecret': 'req.session.oauthAccessTokenSecret',
+              };
+    var mongoose = require('mongoose');
+    mongoose.connect('mongodb://localhost/powerball');
+
+    var post = new User({
+        name: params.name
+        , oauthAccessToken : params.oauthAccessToken
+        , oauthAccessTokenSecret: params.oauthAccessTokenSecret
+        , created_at: new Date()});
+    post.save(function (err) {
+      var req = http.get({ path: '/user/id/' + post._id + "1", port: 3000 }, function(res) {
+        assert.ok(res.statusCode === 404, res.statusCode);
+        var buf = '';
+        res.on('data', function(chunk){
+          buf += chunk
+        });
+        res.on('end', function(){
+          assert.ok(buf.indexOf("testsUserWillExist"));
+          done();
+        });
+      });
+    }); 
+  });
+
   it('should get 200 and a message saying it failed when calling /score', function(done){
     var req = http.request({ path: '/score', port: 3000, method: "POST" }, function(res) {
       assert.ok(res.statusCode === 200);
