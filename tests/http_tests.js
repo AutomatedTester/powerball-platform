@@ -110,6 +110,36 @@ describe('server', function(){
     });
   });
 
+  it('should find the user by name', function(done){
+
+    var params = {
+              'name': 'testsUserWillExist',
+              'oauthAccessToken': 'req.session.oauthAccessToken',
+              'oauthAccessTokenSecret': 'req.session.oauthAccessTokenSecret',
+              };
+    var mongoose = require('mongoose');
+    mongoose.connect('mongodb://localhost/powerball');
+
+    var post = new User({
+        name: params.name
+        , oauthAccessToken : params.oauthAccessToken
+        , oauthAccessTokenSecret: params.oauthAccessTokenSecret
+        , created_at: new Date()});
+    post.save(function (err) {
+      var req = http.get({ path: '/user/testsUserWillExist', port: 3000 }, function(res) {
+        assert.ok(res.statusCode === 200);
+        var buf = '';
+        res.on('data', function(chunk){
+          buf += chunk
+        });
+        res.on('end', function(){
+          assert.ok(buf.indexOf("testsUserWillExist"));
+          done();
+        });
+      });
+    }); 
+  });
+
   it('should get 200 and a message saying it failed when calling /score', function(done){
     var req = http.request({ path: '/score', port: 3000, method: "POST" }, function(res) {
       assert.ok(res.statusCode === 200);
