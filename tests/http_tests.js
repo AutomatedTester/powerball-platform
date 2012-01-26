@@ -21,6 +21,17 @@ describe('server', function(){
       });
     });
   });
+  
+  it('should allow access to /robots.txt', function(done){
+      http.get({ path: '/robots.txt', port: 3000 }, function(res){
+      assert.ok(res.statusCode === 200);
+      var buf = '';
+      res.on('data', function(chunk){buf += chunk});
+      res.on('end', function(){
+        done();
+      });
+    });
+  });
 
   it('Shouldnt Be Able To Post To Root', function(done){
     var req = http.request({ path: '/', port: 3000, method: "POST" }, function(res) {

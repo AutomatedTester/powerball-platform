@@ -142,4 +142,8 @@ app.get('/logout', function(req, res){
   });
 });
 
+app.get('/robots.txt', function(req, res){
+   res.send('User-Agent: *', { 'Content-Type': 'text/plain' }, 200);
+});
+
 app.listen(3000);
