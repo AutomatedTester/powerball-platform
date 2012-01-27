@@ -17,7 +17,7 @@ module.exports = function(app){
             user: req.session.powerballUser || false,
             userProf : user.name,
             userId: req.session.powerballUser === user.name ? user._id : false,
-            score: req.session.score || score,
+            score: score,
             title: 'Powerball'
           });
         });
