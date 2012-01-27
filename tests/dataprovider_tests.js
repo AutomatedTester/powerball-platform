@@ -7,16 +7,16 @@ var DataProvider = require('../dataprovider').DataProvider
   , assert = require('assert'); 
 
 describe('DataProvider', function(){
-  beforeEach(function(){
+  beforeEach(function(done){
     dataProvider = new DataProvider();
     mongoose.connect('mongodb://localhost/powerball');
+    done()
   });
 
   describe("Users", function(){
     it('Should only have 1 user if we try post multiple times', function(done){
       var params = {
             'name': 'testdetails3',
-           // 'email': 'foo@bar.com',
             'oauthAccessToken': 'req.session.oauthAccessToken',
             'oauthAccessTokenSecret': 'req.session.oauthAccessTokenSecret',
             };
@@ -33,7 +33,6 @@ describe('DataProvider', function(){
     it('should allow us to store a user', function(done){
      var params = {
             'name': 'testdetails2',
-           // 'email': 'foo@bar.com',
             'oauthAccessToken': 'req.session.oauthAccessToken',
             'oauthAccessTokenSecret': 'req.session.oauthAccessTokenSecret',
             };
@@ -50,7 +49,6 @@ describe('DataProvider', function(){
     it('Should Can Find User in DataStore ', function(done){
       var params = {
             'name': 'userdetails',
-           // 'email': 'foo@bar.com',
             'oauthAccessToken': 'req.session.oauthAccessToken',
             'oauthAccessTokenSecret': 'req.session.oauthAccessTokenSecret',
             };
@@ -67,7 +65,6 @@ describe('DataProvider', function(){
     it('should find a user by their id', function(done){
       var params = {
             'name': 'userdetails2',
-           // 'email': 'foo@bar.com',
             'oauthAccessToken': 'req.session.oauthAccessToken',
             'oauthAccessTokenSecret': 'req.session.oauthAccessTokenSecret',
             };
@@ -171,7 +168,6 @@ describe('DataProvider', function(){
       game.save(function(err){
         dataProvider.getGame('l10n', function(err, game){
           assert.ok(err === null);
-          console.log(JSON.stringify(game));
           assert.ok(game.name === 'l10n');
           done();
         });
@@ -179,8 +175,9 @@ describe('DataProvider', function(){
     });
   });
 
-  afterEach(function(){
+  afterEach(function(done){
     User.remove({});
     Score.remove({});
+    done();
   });
 });
