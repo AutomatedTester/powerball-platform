@@ -154,7 +154,6 @@ describe('DataProvider', function(){
           assert.ok(error == null);
           dataProvider.getAllScores(function(docs){
             assert.ok(Object.keys(docs).length >= 2);
-            console.log(JSON.stringify(docs));
             var myKeys = Object.keys(docs);
             for(var i=1; i < myKeys.length - 1; i++){  
               assert.ok(docs[myKeys[i-1]] >= docs[myKeys[i]], "first: " + docs[myKeys[i -1]] + " Second: " + docs[myKeys[i]]);
