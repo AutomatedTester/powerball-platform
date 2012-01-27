@@ -6,12 +6,20 @@ module.exports = function(app){
   app.get('/user/:name', function(req, res, next){
     dataProvider.findUser(req.params.name, function(error, user) {
       if (user){
-        res.render('user', {
-          user: req.session.powerballUser || false,
-          userProf : user.name,
-          userId: req.session.powerballUser === user.name ? user._id : false,
-          score: req.session.score || 0,
-          title: 'Powerball'
+        dataProvider.getScore(user.name, function(error, results){
+          if (error) console.error(error);
+          console.log(JSON.stringify(results));
+          var score = 0;
+          for (var i=0;i < results.length; i++){
+            score += results[i].points;
+          }
+          res.render('user', {
+            user: req.session.powerballUser || false,
+            userProf : user.name,
+            userId: req.session.powerballUser === user.name ? user._id : false,
+            score: req.session.score || score,
+            title: 'Powerball'
+          });
         });
       } else {
         next();

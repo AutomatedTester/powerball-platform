@@ -2,7 +2,8 @@ var http = require('http')
   , assert = require('assert')
   , server = require('../app')
   , User = require('../dataprovider').User
-  , Games = require('../dataprovider').Games;
+  , Games = require('../dataprovider').Games
+  , Score = require('../dataprovider').Score;
 
 describe('server', function(){
   
@@ -137,15 +138,24 @@ describe('server', function(){
         , oauthAccessTokenSecret: params.oauthAccessTokenSecret
         , created_at: new Date()});
     post.save(function (err) {
-      var req = http.get({ path: '/user/testsUserWillExist', port: 3000 }, function(res) {
-        assert.ok(res.statusCode === 200);
-        var buf = '';
-        res.on('data', function(chunk){
-          buf += chunk
-        });
-        res.on('end', function(){
-          assert.ok(buf.indexOf("testsUserWillExist"));
-          done();
+      var score = new Score({
+        'user':params.name,
+        'game':'l10n',
+        'points':1
+      });
+      score.save(function (err) {
+        var req = http.get({ path: '/user/testsUserWillExist', port: 3000 }, function(res) {
+          assert.ok(res.statusCode === 200);
+          var buf = '';
+          res.on('data', function(chunk){
+            buf += chunk
+          });
+          res.on('end', function(){
+            assert.ok(buf.indexOf("testsUserWillExist"));
+            var score = /Their current score is (\d)/i.exec(buf)[1];
+            assert.ok(score >=1, score);
+            done();
+          });
         });
       });
     }); 
@@ -173,7 +183,7 @@ describe('server', function(){
           buf += chunk
         });
         res.on('end', function(){
-          assert.ok(buf.indexOf("testsUserWillExist"));
+          assert.ok(buf.indexOf("testsSearchById"));
           done();
         });
       });
