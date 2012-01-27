@@ -8,7 +8,6 @@ module.exports = function(app){
       if (user){
         dataProvider.getScore(user.name, function(error, results){
           if (error) console.error(error);
-          console.log(JSON.stringify(results));
           var score = 0;
           for (var i=0;i < results.length; i++){
             score += results[i].points;
