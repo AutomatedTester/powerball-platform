@@ -130,9 +130,37 @@ describe('DataProvider', function(){
         assert.ok(error == null);
         dataProvider.getAllScores(function(docs){
           assert.ok(Object.keys(docs).length >= 1);
-          console.log(JSON.stringify(docs));
           assert.ok(docs[params.user] >= 1);
           done();
+        });
+      });
+    });
+
+
+    it('should return all users in decending order', function(done){
+      var params = {
+        'user':'testUserLeadboards1',
+        'game':'l10n',
+        'points':3
+      }
+      dataProvider.putScore(params, function(error){
+        assert.ok(error == null);
+        var params2 = {
+          'user':'testUserLeadboards2',
+          'game':'l10n',
+          'points':1
+        }
+        dataProvider.putScore(params2, function(error){
+          assert.ok(error == null);
+          dataProvider.getAllScores(function(docs){
+            assert.ok(Object.keys(docs).length >= 2);
+            console.log(JSON.stringify(docs));
+            var myKeys = Object.keys(docs);
+            for(var i=1; i < myKeys.length - 1; i++){  
+              assert.ok(docs[myKeys[i-1]] >= docs[myKeys[i]], "first: " + docs[myKeys[i -1]] + " Second: " + docs[myKeys[i]]);
+            }
+            done();
+          });
         });
       });
     });

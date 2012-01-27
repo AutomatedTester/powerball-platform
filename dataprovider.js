@@ -140,7 +140,17 @@ DataProvider.prototype.getAllScores = function(callback){
             for(var i=0; i < docs.length; i++){
               users[docs[i].user] = users[docs[i].user] + docs[i].points || 1;
             }
-            callback(users);
+            var sortable = [];
+            for (var user in users)
+              sortable.push([user, users[user]])
+            sortable.sort(function(a, b) {return a[1] - b[1]})
+            sortable.reverse();
+            
+            var sortedUsers = {}
+            for (var i=0; i < sortable.length; i++){
+              sortedUsers[sortable[i][0]] = sortable[i][1];
+            }
+            callback(sortedUsers);
           });
 };
 
