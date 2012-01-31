@@ -787,7 +787,7 @@ goog.string.compareVersions = function(a, b) {
       if(l[0].length == 0 && m[0].length == 0) {
         break
       }
-      var c = l[1].length == 0 ? 0 : parseInt(l[1], 10), n = m[1].length == 0 ? 0 : parseInt(m[1], 10), c = goog.string.compareElements_(c, n) || goog.string.compareElements_(l[2].length == 0, m[2].length == 0) || goog.string.compareElements_(l[2], m[2])
+      var c = l[1].length == 0 ? 0 : parseInt(l[1], 10), o = m[1].length == 0 ? 0 : parseInt(m[1], 10), c = goog.string.compareElements_(c, o) || goog.string.compareElements_(l[2].length == 0, m[2].length == 0) || goog.string.compareElements_(l[2], m[2])
     }while(c == 0)
   }
   return c
@@ -2133,16 +2133,29 @@ webdriver.promise.Application.prototype.scheduleWait = function(a, b, c, d, e) {
   var f = Math.min(c, 100), g = !!e, h = this;
   return this.schedule(a, function() {
     function a() {
-      var m = h.executeAsap_(b);
-      return webdriver.promise.when(m, function(b) {
-        var h = goog.now() - e;
-        g != !!b ? (l.isWaiting = !1, i.resolve()) : h >= c ? i.reject(Error((d ? d + "\n" : "") + "Wait timed out after " + h + "ms")) : setTimeout(a, f)
-      }, i.reject)
+      var i = h.executeAsap_(b);
+      return webdriver.promise.when(i, function(b) {
+        e();
+        var h = goog.now() - o;
+        g != !!b ? (p.isWaiting = !1, n.resolve()) : h >= c ? n.reject(Error((d ? d + "\n" : "") + "Wait timed out after " + h + "ms")) : setTimeout(a, f)
+      }, function(a) {
+        e();
+        n.reject(a)
+      })
     }
-    var e = goog.now(), i = new webdriver.promise.Deferred, l = goog.array.peek(h.frames_);
-    l.isWaiting = !0;
+    function e() {
+      if(h.history_.length != l) {
+        var a = a = goog.array.splice(h.history_, l).join("\n");
+        !m || a != m.value ? (m = {value:a, count:1}, l += 2) : (h.history_.pop(), h.history_.pop(), m.count++);
+        var b = Array(i).join("..");
+        h.history_.push(b + "wait loop x" + m.count);
+        h.history_.push(a)
+      }
+    }
+    var i = h.frames_.length, l = h.history_.length, m, o = goog.now(), n = new webdriver.promise.Deferred, p = goog.array.peek(h.frames_);
+    p.isWaiting = !0;
     a();
-    return i.promise
+    return n.promise
   })
 };
 goog.exportProperty(webdriver.promise.Application.prototype, "scheduleWait", webdriver.promise.Application.prototype.scheduleWait);
@@ -2184,29 +2197,29 @@ webdriver.promise.Application.prototype.runEventLoop_ = function() {
   }
 };
 webdriver.promise.Application.prototype.executeAsap_ = function(a) {
-  var b;
+  var b, c;
   try {
-    var c = goog.array.peek(this.frames_);
-    if(!c || c.isActive) {
-      b = new webdriver.promise.Application.Frame_, this.frames_.push(b)
+    var d = goog.array.peek(this.frames_);
+    if(!d || d.isActive || d.isWaiting) {
+      b = new webdriver.promise.Application.Frame_, c = this.frames_.push(b)
     }
-    var d = a();
+    var e = a();
     if(!b) {
-      return d
+      return e
     }
-    if(!b.queue.length) {
-      return this.frames_.pop(), d
+    if(!b.queue.length && c == this.frames_.length) {
+      return this.frames_.pop(), e
     }
     return b.then(function() {
-      return d
+      return e
     }, function(a) {
-      if(d instanceof webdriver.promise.Promise && d.isPending()) {
-        return d.cancel(a), d
+      if(e instanceof webdriver.promise.Promise && e.isPending()) {
+        return e.cancel(a), e
       }
       throw a;
     })
-  }catch(e) {
-    return b && this.frames_.pop(), webdriver.promise.rejected(e)
+  }catch(f) {
+    return b && this.frames_.pop(), webdriver.promise.rejected(f)
   }
 };
 webdriver.promise.Application.prototype.commenceShutdown_ = function() {
@@ -2336,7 +2349,7 @@ webdriver.WebDriver.prototype.getCapability = function(a) {
 };
 goog.exportProperty(webdriver.WebDriver.prototype, "getCapability", webdriver.WebDriver.prototype.getCapability);
 webdriver.WebDriver.prototype.quit = function() {
-  this.schedule(new webdriver.Command(webdriver.CommandName.QUIT), "WebDriver.quit()").addBoth(function() {
+  return this.schedule(new webdriver.Command(webdriver.CommandName.QUIT), "WebDriver.quit()").addBoth(function() {
     delete this.session_
   }, this)
 };

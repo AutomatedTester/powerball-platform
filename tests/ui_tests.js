@@ -29,7 +29,7 @@ describe('UI Functions',function(){
     });
   });
 
-  after(function(){
-    driver.quit();
+  after(function(done){
+    driver.quit().then(function(){done()});
   });
 });
