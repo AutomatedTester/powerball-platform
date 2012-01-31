@@ -532,4 +532,13 @@ describe('server', function(){
       });
     });
   });
+  afterEach(function(done){
+    User.remove({}, function(){
+      Score.remove({}, function(){
+        Games.remove({}, function(){
+          done();
+        });
+      });
+    });
+  });
 });

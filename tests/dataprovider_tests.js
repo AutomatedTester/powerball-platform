@@ -176,8 +176,10 @@ describe('DataProvider', function(){
   });
 
   afterEach(function(done){
-    User.remove({});
-    Score.remove({});
-    done();
+    User.remove({}, function(){
+      Score.remove({}, function(){
+        done();
+      });
+    });
   });
 });
