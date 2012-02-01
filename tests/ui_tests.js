@@ -4,7 +4,7 @@ var app = require('../app'),
 
 describe('UI Functions',function(){
   var driver;
-  before(function(){
+  beforeEach(function(){
     driver =  new webdriver.Builder().
     usingServer('http://localhost:4444/wd/hub').
     withCapabilities({
@@ -29,7 +29,9 @@ describe('UI Functions',function(){
     });
   });
 
-  after(function(done){
+
+
+  afterEach(function(done){
     driver.quit().then(function(){done()});
   });
 });
