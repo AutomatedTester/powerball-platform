@@ -132,27 +132,32 @@ DataProvider.prototype.getScore = function(name, callback){
 };
 
 DataProvider.prototype.getAllScores = function(callback){
+	var self = this;
   Score.where('user').
         select('user', 'points').
         run(function(error, docs){
-            var users = {};
-            if (error) throw error;
-            for(var i=0; i < docs.length; i++){
-              users[docs[i].user] = users[docs[i].user] + docs[i].points || 1;
-            }
-            var sortable = [];
-            for (var user in users)
-              sortable.push([user, users[user]])
-            sortable.sort(function(a, b) {return a[1] - b[1]})
-            sortable.reverse();
-            
-            var sortedUsers = {}
-            for (var i=0; i < sortable.length; i++){
-              sortedUsers[sortable[i][0]] = sortable[i][1];
-            }
-            callback(sortedUsers);
+						if (error) throw error;
+            callback(self._sortUsers(docs));
           });
 };
+
+DataProvider.prototype._sortUsers = function(docs){
+	var users = {};
+	for(var i=0; i < docs.length; i++){
+		users[docs[i].user] = users[docs[i].user] + docs[i].points || 1;
+	}
+	var sortable = [];
+	for (var user in users)
+		sortable.push([user, users[user]])
+		sortable.sort(function(a, b) {return a[1] - b[1]})
+	sortable.reverse();
+
+	var sortedUsers = {}
+	for (var i=0; i < sortable.length; i++){
+		sortedUsers[sortable[i][0]] = sortable[i][1];
+	}
+	return sortedUsers
+}
 
 DataProvider.prototype.getGame = function(game, callback){
   console.log("DataProvider.getGame has been called");
