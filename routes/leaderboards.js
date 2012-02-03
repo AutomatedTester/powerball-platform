@@ -39,6 +39,18 @@ module.exports = function(app){
   var dataProvider = new DataProvider();
 
   app.get('/leaderboards', function(req, res){
+    dataProvider.getAllScoresForSevenDays(function(users){ 
+            res.render('leaderboards', {
+              leaderboard: users,
+              user: req.session.powerballUser || false,
+              userId: req.session.userId || '',
+              score: req.session.score || 0,
+              title: 'Powerball'
+            });
+      });
+  });
+
+  app.get('/leaderboards/overall', function(req, res){
     dataProvider.getAllScores(function(users){ 
             res.render('leaderboards', {
               leaderboard: users,

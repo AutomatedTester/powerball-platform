@@ -160,6 +160,69 @@ describe('DataProvider', function(){
         });
       });
     });
+    it('should return all users in last 7 days only', function(done){
+			var now = new Date(),
+				eightDays = 1000*60*60*24*8,
+				params = {
+		      'user':'testUserLeadboards',
+	        'game':'l10n',
+					'points':1
+				},
+				score = new Score({
+					'user':params.name + "lastweek",
+	        'game':'l10n',
+		      'points':1
+			    , created_at: new Date(now.valueOf() - eightDays) });
+			score.save(function(err){
+				assert.ok(err == undefined);
+			  dataProvider.putScore(params, function(error){
+		      assert.ok(error == null);
+	        dataProvider.getAllScoresForSevenDays(function(docs){
+					  assert.ok(Object.keys(docs).length >= 1);
+				    assert.ok(docs[params.user] >= 1);
+			      done();
+		      });
+	      });
+			});
+    });
+
+
+    it('should return all users in decending order', function(done){
+			var now = new Date(),
+				eightDays = 1000*60*60*24*8,
+				params = {
+        'user':'testUserLeadboards1',
+        'game':'l10n',
+        'points':3
+      },
+				score = new Score({
+					'user':params.name + "lastweek",
+	        'game':'l10n',
+		      'points':1
+			    , created_at: new Date(now.valueOf() - eightDays) });
+			score.save(function(err){
+				assert.ok(err == null);
+		    dataProvider.putScore(params, function(error){
+	        assert.ok(error == null);
+					var params2 = {
+				    'user':'testUserLeadboards2',
+		        'game':'l10n',
+			      'points':1
+	        }
+					dataProvider.putScore(params2, function(error){
+				    assert.ok(error == null);
+			      dataProvider.getAllScoresForSevenDays(function(docs){
+		          assert.ok(Object.keys(docs).length >= 2);
+	            var myKeys = Object.keys(docs);
+							for(var i=1; i < myKeys.length - 1; i++){  
+						    assert.ok(docs[myKeys[i-1]] >= docs[myKeys[i]], "first: " + docs[myKeys[i -1]] + " Second: " + docs[myKeys[i]]);
+					    }
+				      done();
+			      });
+		      });
+	      });
+			});
+    });
   });
 
   describe('games', function(){

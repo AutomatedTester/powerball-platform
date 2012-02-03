@@ -141,6 +141,19 @@ DataProvider.prototype.getAllScores = function(callback){
           });
 };
 
+DataProvider.prototype.getAllScoresForSevenDays = function(callback){
+	var self = this
+		, now = Date.now()
+		, sevenDays = 1000*60*60*24*7;
+  Score.where('user').
+        select('user', 'points').
+				where("created_at").gte(new Date(now.valueOf() - sevenDays)).
+        run(function(error, docs){
+						if (error) throw error;
+            callback(self._sortUsers(docs));
+          });
+};
+
 DataProvider.prototype._sortUsers = function(docs){
 	var users = {};
 	for(var i=0; i < docs.length; i++){
