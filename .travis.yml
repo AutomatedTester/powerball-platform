@@ -12,5 +12,4 @@ env:
 notifications:
   email:
     - powerball@theautomatedtester.co.uk
-  irc:
-    - "irc.mozilla.org#automation"
+  irc: "irc.mozilla.org#automation"
