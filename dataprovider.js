@@ -135,7 +135,6 @@ DataProvider.prototype.getAllScores = function(callback){
 	var self = this;
   Score.where('user').
         select('user', 'points').
-				limit(25).
         run(function(error, docs){
 						if (error) throw error;
             callback(self._sortUsers(docs));
@@ -149,7 +148,6 @@ DataProvider.prototype.getAllScoresForSevenDays = function(callback){
   Score.where('user').
         select('user', 'points').
 				where("created_at").gte(new Date(now.valueOf() - sevenDays)).
-				limit(25).
         run(function(error, docs){
 						if (error) throw error;
             callback(self._sortUsers(docs));
