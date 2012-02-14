@@ -3,7 +3,14 @@
     "license": "MPL 1.1/GPL 2.0/LGPL 2.1", 
     "author": "Joel Maher", 
     "version": "0.1", 
-    "fullName": "Mozilla Powerball Addon", 
-    "id": "jid1-pJJAviC5md81vg", 
-    "description": "Firefox addon to send results from the browser to powerball"
+    "fullName": "MozillaQA Powerball", 
+    "id": "powerball@quality.mozilla.org", 
+    "description": "Firefox addon to send results from the browser to powerball",
+    "preferences": [{
+        "name": "userid",
+        "title": "User ID of the Powerball Platform",
+        "type": "string",
+        "value": ""
+    }]
+
 }
