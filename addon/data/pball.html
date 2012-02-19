@@ -1,44 +1,13 @@
 <html>
 <head>
-<link rel="stylesheet" type="text/css" href="pball.css"/>
+  <link rel="stylesheet" type="text/css" href="pball.css"/>
 </head>
+
 <body>
-<script>
-  function dispatchData() {
-    userID = document.getElementById("userid").value;
-    var element = document.createEvent("datacontainerevent");
-    element.initEvent("pbContentEvent", true, false);
-    element.setData("userID", userID);
-    document.dispatchEvent(element);
-
-    var li = document.getElementById("account");
-    li.innerHTML = "<a href=\"http://powerball.theautomatedtester.co.uk/user/id/" + userID + "\" target=\"_blank\">Account</a>";
-    alert("Thanks for associating your powerball userid");
-  }
-  
-  var state = 'none';
-  function toggleDiv(div_id) {
-    if (state == 'block') {
-        state = 'none';
-    } else {
-        state = 'block';
-    }
-
-    if (document.getElementById && !document.all) {
-        mydiv = document.getElementById(div_id);
-        mydiv.style.display = state;
-    }
-  }
-</script>
-<ul id ="coolMenu">
-<li><a href = "http://bugzilla.mozilla.org/enter_bug.cgi?product=Firefox&status_whiteboard=[powerball]" target="_blank">New bug</a></li>
-<li><a href="http://powerball.theautomatedtester.co.uk/" target="_blank">About</a></li>
-<li id="account"><a href="http://powerball.theautomatedtester.co.uk" target="_blank">New Account</a></li>
-<li><a href="#" onclick="toggleDiv('preferences');">Preferences</a>
-<div id="preferences" style="display: none;">
-Please enter your powerball user token: <input type="text" length="40" id="userid" />
-<input type="submit" value="Save" onclick="dispatchData();toggleDiv('preferences');" />
-</div></li>
-</ul>
+  <ul id ="menu">
+    <li id="bugzilla"><a target="_blank">Create Bug</a></li>
+    <li id="about"><a target="_blank">About</a></li>
+    <li id="account"><a target="_blank">New Account</a></li>
+  </ul>
 </body>
-</htm>l
+</html>
