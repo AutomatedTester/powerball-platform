@@ -26,15 +26,15 @@ script
     $('#dialog').dialog({ autoOpen: false })
     var images = ['view', 'bookmarks', 'edit', 'file', 'history', 'tools', 'window']
     , currentShow = 0;
-    $('#eng').attr('src',"/images/eng-"+images[currentShow]+".jpg" );
-    $('#ger').attr('src',"/images/ger-"+images[currentShow]+".jpg");
+    $('#eng').attr('src',"/images/l10n/eng-"+images[currentShow]+".jpg" );
+    $('#ger').attr('src',"/images/l10n/ger-"+images[currentShow]+".jpg");
       
     $('#yes').click(function() {
       currentShow++;
       score();
       if (currentShow < images.length){
-        $('#eng').attr('src',"/images/eng-"+images[currentShow]+".jpg" );
-        $('#ger').attr('src',"/images/ger-"+images[currentShow]+".jpg");
+        $('#eng').attr('src',"/images/l10n/eng-"+images[currentShow]+".jpg" );
+        $('#ger').attr('src',"/images/l10n/ger-"+images[currentShow]+".jpg");
       } else {
         $('#no').hide();
         $('#yes').hide();
@@ -48,8 +48,8 @@ script
       currentShow++;
       score();
       if (currentShow < images.length){
-        $('#eng').attr('src',"/images/eng-"+images[currentShow]+".jpg" );
-        $('#ger').attr('src',"/images/ger-"+images[currentShow]+".jpg");
+        $('#eng').attr('src',"/images/l10n/eng-"+images[currentShow]+".jpg" );
+        $('#ger').attr('src',"/images/l10n/ger-"+images[currentShow]+".jpg");
       } else {
         $('#no').hide();
         $('#yes').hide();
